@@ -27,7 +27,7 @@ class create:
 
         pass
 
-class declare:
+class declare: #currently unused, might delete later
     
     def building_floors(a):
         
@@ -40,6 +40,11 @@ class system: # i am unsure if system is the best name for this class...
         a=0
         b=0
 
+        stories_rooms=[]
+        building_names=[]
+        building_stories=[]
+        stories_rooms_temp2=[]
+        
         #num_levels = int(input("How many grade levels is present?: "))
 
         num_buildings = int(input("How many buildings are there?: "))
@@ -52,26 +57,52 @@ class system: # i am unsure if system is the best name for this class...
 
         #num_teachers = int(input("How many teachers will be teaching?: "))
 
-        
-        for x in range(num_buildings): # Makes a dictionary for the buildings (building_1, building_2...) these values will be assigned a value based on how many floors the building has.
-            a+=1
-            building_name_temp = declare.building_floors(a)
-            dict_buildings=dict()
-            dict_buildings[building_name_temp] = "num_floors_temp"
+        dict_buildings=dict()
 
-            print(dict_buildings)
-
-        building_name_temp=None
-
-        for x in range(num_buildings): # take input for names for the buildings, and matches it with the blah blah blah you get the point
-            b+=1
-            building_name_temp = declare.building_floors(b)
-            building_name_input_temp = str(input("\n\nRename Building_"+str(b)+": "))
-            dict_buildings[building_name_temp]=building_name_input_temp
-
-        print(dict_buildings)
-
+        for x in range(num_buildings):                                                                  # This loop clarifies and compiles the information of the building
             
+            a+=1                                                                                        # used to track the building numbers (incremented by 1 so the users brain doesnt explode)
+
+            building_name_temp=str(input("Enter a name for building "+str(a)+": " ))                    #gets name of building(s), and stores it in a temp var
+
+            building_stories_temp=int(input("Enter How many floors there are in this building: "))      #gets how many floors are in the building, stores it in a temp var
+
+
+            for x in range(building_stories_temp):                                                      # Gets the list of rooms per floor, names of the buildings, the number of stories in each building, respectively.
+                 
+                stories_rooms_temp=int(input("How many rooms are in the "+str(x+1)+" floor: "))         # gets temp input of how many rooms in each floor(x+1) 
+
+                stories_rooms_temp2.append(stories_rooms_temp)                                          # appends temp input to a temp list (for keeping the values, after an iteration in the for loop)
+
+                if x == building_stories_temp-1:                                                        # checks if the for loop is about to end
+
+                    stories_rooms.append(stories_rooms_temp2)                                           # appends the list to the final rooms per story variable so that it will not be affected in the parent for loop iteration
+
+                    stories_rooms_temp2=[]                                                              # resets the temp
+
+                else:
+
+                    pass
+                
+            building_names.append(building_name_temp)                                                   # appends to the final building names, and stories variable
+            building_stories.append(building_stories_temp)
+            
+            
+
+        print(stories_rooms)
+        print(building_names)
+        print(building_stories)
+
+
+        
+
+
+
+
+
+
+
+
 
             
 
