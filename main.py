@@ -42,22 +42,28 @@ class info_gathering: # i am unsure if system is the best name for this class...
         
     def general():
 
-        #num_levels = int(input("How many grade levels is present?: "))
+        num_levels = int(input("How many grade levels is present?: "))
 
-        #num_subjects = int(input("How many subjects are there?: "))
+        num_teachers = int(input("How many teachers will teach?"))
 
-        num_buildings = int(input("How many buildings are there?: "))
 
-        #num_classrooms = int(input("How many clasrooms are there?: "))
 
-        #num_sections = int(input("How many sections will there be in a grade level?: "))
+        
 
-        #num_teachers = int(input("How many teachers will be teaching?: "))
+        #num_buildings = int(input("How many buildings are there?: "))
 
-        stories_rooms, building_names, building_stories = info_gathering.building_info(num_buildings)
+
+
+        
+        #grade_levels, subjects, subject_time, subject_classroom_environments = 
+        info_gathering.grade_level_info(num_levels, num_teachers)
+
+
+        #stories_rooms, building_names, building_stories = info_gathering.building_info(num_buildings)
 
 
     def building_info(num_buildings):                                                                   # This function clarifies and compiles the information of the building
+
         a=0  
         stories_rooms=[]
         building_names=[]
@@ -99,6 +105,51 @@ class info_gathering: # i am unsure if system is the best name for this class...
             
         return stories_rooms, building_names, building_stories
             
+    def grade_level_info(num_levels, num_teachers):
+
+        name_teachers=[]
+        level_name=[]
+        num_subjects=[]
+        name_subjects=[]
+        
+        for x in range(num_teachers):                                                                   # gets name of teacher, and places it in a list in order
+
+            name_teachers_temp = str(input("Name of teacher " + str(x+1) + ": "))
+            name_teachers.append(name_teachers_temp)
+
+        for x in range(num_levels):                                                                     # gets name of level
+            level_name_temp=input( "Name of level " + str(x+1) + ": ")
+            level_name.append(level_name_temp)
+
+        for x in range(num_levels):                                                                     # gets how many subjects are in the levels
+
+            subjects_temp=int(input("How many subjects are present in "+ level_name[x]+": " ))
+            num_subjects.append(subjects_temp)
+
+
+
+
+
+
+        for num_subjects_temp in num_subjects:                                                                   # WORK IN PROGRESS
+
+            for num_subjects_temp2 in range(num_subjects_temp):
+
+                for x in range(num_subjects_temp2):
+
+                    name_subjects_temp = str(input(": What is the name of subject"+str(x+1)))
+
+                    name_subjects.append(name_subjects_temp)
+
+
+
+                
+
+
+
+
+
+
 
         
 
