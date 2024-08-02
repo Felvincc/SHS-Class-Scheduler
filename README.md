@@ -10,13 +10,15 @@ to make sure the class where the student belongs will not encounter as many stai
 
 num_levels
 
+num_subjects 
+
 num_buildings 
 
 num_classrooms 
 
 num_sections 
 
-num_subjects 
+
 
 num_teachers 
 
@@ -24,17 +26,29 @@ num_teachers
 
 important stuff things:
 
+how many levels there are (ex. grade 11, 12) and their respective subjects
+
+teachers that may have conditions (ex. health stuff[same as student thing])
+
+what subjects the teachers teach
+
+Available time the teacher has for teaching (taking into account teachers that also teach from other departments)
+
+subjects that require a specific learning environment
+
+time alloted for these subjects
+
 stories, rooms per story, building name of buildings
 
 classroom environments (ex. has_tv, comp_lab, chem_lab), and where they are located
 
 class sections and any notable conditions of students (ex. health problems that prohibit them from climbing many flights of stairs)
 
-subjects that require a specific learning environment
 
-teachers that may have conditions (ex. health stuff[same as student thing])
 
-how many levels there are (ex. grade 11, 12) and their respective subjects
+
+
+
 
 
 
