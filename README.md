@@ -8,6 +8,33 @@ there will also be conditions you can set for the classes, teachers, subjects, a
 wherein when theres a specific condition of one of the students, such as health conditions, the algorithm will try its best
 to make sure the class where the student belongs will not encounter as many stairs or rooms in other floors.
 
+num_levels
+
+num_buildings 
+
+num_classrooms 
+
+num_sections 
+
+num_subjects 
+
+num_teachers 
+
+
+
+important stuff things:
+
+stories, rooms per story, building name of buildings
+
+classroom environments (ex. has_tv, comp_lab, chem_lab), and where they are located
+
+class sections and any notable conditions of students (ex. health problems that prohibit them from climbing many flights of stairs)
+
+subjects that require a specific learning environment
+
+teachers that may have conditions (ex. health stuff[same as student thing])
+
+how many levels there are (ex. grade 11, 12) and their respective subjects
 
 
 

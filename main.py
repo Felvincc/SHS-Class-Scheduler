@@ -32,20 +32,19 @@ class declare: #currently unused, might delete later
     def building_floors(a):
         
         return "building_"+str(a)
+    
+class ui():
 
-class system: # i am unsure if system is the best name for this class...
-        
-    def info_gathering():
-        num_buildings_list = list()
-        a=0
-        b=0
+    def start():
+        info_gathering.general()
 
-        stories_rooms=[]
-        building_names=[]
-        building_stories=[]
-        stories_rooms_temp2=[]
+class info_gathering: # i am unsure if system is the best name for this class...
         
+    def general():
+
         #num_levels = int(input("How many grade levels is present?: "))
+
+        #num_subjects = int(input("How many subjects are there?: "))
 
         num_buildings = int(input("How many buildings are there?: "))
 
@@ -53,13 +52,20 @@ class system: # i am unsure if system is the best name for this class...
 
         #num_sections = int(input("How many sections will there be in a grade level?: "))
 
-        #num_subjects = int(input("How many subjects are there?: "))
-
         #num_teachers = int(input("How many teachers will be teaching?: "))
 
-        dict_buildings=dict()
+        stories_rooms, building_names, building_stories = info_gathering.building_info(num_buildings)
 
-        for x in range(num_buildings):                                                                  # This loop clarifies and compiles the information of the building
+
+    def building_info(num_buildings):                                                                   # This function clarifies and compiles the information of the building
+        a=0  
+        stories_rooms=[]
+        building_names=[]
+        building_stories=[]
+        stories_rooms_temp2=[]
+
+
+        for x in range(num_buildings):                                                                  
             
             a+=1                                                                                        # used to track the building numbers (incremented by 1 so the users brain doesnt explode)
 
@@ -69,7 +75,7 @@ class system: # i am unsure if system is the best name for this class...
 
 
             for x in range(building_stories_temp):                                                      # Gets the list of rooms per floor, names of the buildings, the number of stories in each building, respectively.
-                 
+                    
                 stories_rooms_temp=int(input("How many rooms are in the "+str(x+1)+" floor: "))         # gets temp input of how many rooms in each floor(x+1) 
 
                 stories_rooms_temp2.append(stories_rooms_temp)                                          # appends temp input to a temp list (for keeping the values, after an iteration in the for loop)
@@ -83,44 +89,22 @@ class system: # i am unsure if system is the best name for this class...
                 else:
 
                     pass
-                
+                    
             building_names.append(building_name_temp)                                                   # appends to the final building names, and stories variable
             building_stories.append(building_stories_temp)
-            
-            
 
-        print(stories_rooms)
-        print(building_names)
-        print(building_stories)
-
+            print(stories_rooms)
+            print(building_names)
+            print(building_stories)
+            
+        return stories_rooms, building_names, building_stories
+            
 
         
 
 
 
-
-
-
-
-
-
-            
-
-
-
-
-
-        exit()
-
-        num_building_floors = int(input("How many floors are there in building(s)"))
-
-
-
-class ui():
-
-    def start():
-        system.info_gathering()
-
+#=======================================
 
 ui.start()
 
