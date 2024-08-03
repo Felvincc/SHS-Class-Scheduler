@@ -1,6 +1,6 @@
-# class schedule thing
+# class schedule 
 
-main premise is,
+idea is
 
 This will automatically create class schedules for any number of classes, classrooms, teachers, subjects.
 
