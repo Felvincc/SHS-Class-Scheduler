@@ -111,35 +111,49 @@ class info_gathering: # i am unsure if system is the best name for this class...
         level_name=[]
         num_subjects=[]
         name_subjects=[]
+        level_subjects=[]
+
+        level_subjects_temp2=[]
+        a=0
+        b=-1
         
-        for x in range(num_teachers):                                                                   # gets name of teacher, and places it in a list in order
+        for x in range(num_teachers):                                                                   # fetches name of teacher, and places it in a list in order
 
             name_teachers_temp = str(input("Name of teacher " + str(x+1) + ": "))
             name_teachers.append(name_teachers_temp)
 
-        for x in range(num_levels):                                                                     # gets name of level
+        for x in range(num_levels):                                                                     # fetches name of level
             level_name_temp=input( "Name of level " + str(x+1) + ": ")
             level_name.append(level_name_temp)
 
-        for x in range(num_levels):                                                                     # gets how many subjects are in the levels
+        for x in range(num_levels):                                                                     # fetches how many subjects are per levels
 
-            subjects_temp=int(input("How many subjects are present in "+ level_name[x]+": " ))
+            subjects_temp=int(input("How many subjects are present in "+ level_name[x]+": " ))          
             num_subjects.append(subjects_temp)
 
+        for num_subjects_temp in num_subjects:                                                          # fetches the name of the subjects per level (quite annoying to make)
+            a+=1
+            b+=1
+            for x in range(num_subjects_temp):
+
+                level_subjects_temp = input(level_name[b]+": What is the name of subject "+str(a)+": ") 
+                level_subjects_temp2.append(level_subjects_temp)
+
+            if x == num_subjects_temp-1:
+                
+                level_subjects.append(level_subjects_temp2)
+                level_subjects_temp2=[]
+                a=0
+
+            else:
+                pass
+        
+        print(level_subjects)
 
 
 
 
 
-        for num_subjects_temp in num_subjects:                                                                   # WORK IN PROGRESS
-
-            for num_subjects_temp2 in range(num_subjects_temp):
-
-                for x in range(num_subjects_temp2):
-
-                    name_subjects_temp = str(input(": What is the name of subject"+str(x+1)))
-
-                    name_subjects.append(name_subjects_temp)
 
 
 
