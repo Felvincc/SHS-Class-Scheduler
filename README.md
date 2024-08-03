@@ -14,8 +14,13 @@ plans for genetic algs:
 
 there will be multiple customizable settings
 
-ex. How many breaks per day, how far each classroom will be from each other, how early schedule starts, how late schedule ends, 
+ex. 
+How many breaks per day,
+how far each classroom will be from each other,
+how early schedule starts,
+how late schedule ends, 
 
+possibly sub genetic algorithms for each setting
 
 
 
