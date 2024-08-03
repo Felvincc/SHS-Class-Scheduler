@@ -10,6 +10,11 @@ to make sure the class where the student belongs will not encounter as many stai
 
 planning to use genetic algorithms for the scheduling algorithm, (inspired by this guy https://github.com/edceliz/GeneticAlgorithmUniversityClassScheduler)
 
+
+ignore below:
+
+
+
 num_levels
 
 num_subjects 
