@@ -10,6 +10,15 @@ to make sure the class where the student belongs will not encounter as many stai
 
 planning to use genetic algorithms for the scheduling algorithm, (inspired by this guy https://github.com/edceliz/GeneticAlgorithmUniversityClassScheduler)
 
+plans for genetic algs:
+
+there will be multiple customizable settings
+
+ex. How many breaks per day, how far each classroom will be from each other, how early schedule starts, how late schedule ends, 
+
+
+
+
 
 ignore below:
 
