@@ -9,7 +9,7 @@ def info():
     levels =        (
 
                         "g11_steam",
-                        "g11_abm"
+                        "g12_steam"
 
                     )
     
@@ -23,20 +23,31 @@ def info():
     
     all_info.append(section)
 
-    subjects = (
+    subjects = (                                    # Last to subjects should be the interchangeable subjects (pe, cffs)
 
                     (
                         "precalc",
-                        "genmath",
+                        "stats",
                         "ucsp",
-                        "iphp"
+                        "iphp",
+                        "esci",
+                        "emptech",
+                        "oralcom"
+                        "peh",
+                        "cffs",
+
                     ),
 
                     (
-                        "business_math",
-                        "accounting",
+                        "english",
+                        "chemistry",
                         "cpar",
-                        "reading&writing"
+                        "filipino"
+                        "biology",
+                        "inqvest",
+                        "physics",
+                        "peh",
+                        "cffs"
                     )
                 )
     
@@ -51,10 +62,10 @@ def info():
     
     all_info.append(buildings)
 
-    floors =        (                  # COUNT FROM ZERO, INCLUDE GROUND FLOOR                 
+    floors =        (                  # COUNT FROM ZERO, INCLUDE GROUND FLOOR (ex. if a building has 3 floors, count as 0, 1, 2)         
         
                         2,
-                        4
+                        2
         
                     )
     
@@ -63,7 +74,7 @@ def info():
     rooms =         (
         
                         12,
-                        20
+                        4
         
                     )
     
@@ -102,17 +113,24 @@ def info():
     instructors_avail_time = (
 
                     (
-                        "0000",
-                        "0000",
-                        "0000",
-                        "0000"
+                        "1111",
+                        "1111",
+                        "1111",
+                        "1111"
                     ),
 
                     (
-                        "0000",
-                        "0000",
-                        "0000",
-                        "0000"
+                        "1111",
+                        "1111",
+                        "1111",
+                        "1111"
+                    ),
+
+                    (
+                        "1111",
+                        "1111",
+                        "1111",
+                        "1111"
                     )
                 )
     
@@ -123,7 +141,122 @@ def info():
     #all_info = (levels, section, subjects, buildings, floors, rooms, instructors, instructors_field, instructors_available_time)
 
     return all_info
+
     
+
+def fitness ():             #checks fitness level
+    
+    ideal_num_breaks_morning = 1
+
+    ideal_num_breaks_afternoon = 1
+
+    ideal_sched_start = 1
+
+    ideal_sched_end = 3
+
+    room_distance = 1
+
+
+    difficulty_0 = ()
+
+    difficulty_1 = ()
+
+    difficulty_2 = ()
+
+    ideal_subject_placement = ("0120","0120")
+
+
+def constrained_randomizer(compiled_data):
+
+    compiled_data=convert()
+    #print(compiled_data)
+
+    #               UNPACKS THE DATA RETURNED FROM convert()
+
+    # Single list/tuple
+    levels = compiled_data[0]
+    #print(levels)
+
+    # Single list/tuple
+    sections = compiled_data[1]
+    #print(sections)
+
+    # single list/tuple
+    instructors_avail_time = compiled_data[2]
+    #print(instructors_avail_time)
+
+    # raw, dict, conv
+    parent_subjects = compiled_data[3]
+    #print(parent_subjects)
+    
+    # raw, dict, conv
+    parent_buildings = compiled_data[4]
+    #print(parent_buildings)
+
+    # raw, conv
+    parent_floors = compiled_data[5]
+    #print(parent_floors)
+
+    # raw, conv
+    parent_rooms = compiled_data[6]
+    #print(parent_rooms)
+
+    # raw, dict, conv
+    parent_instructors = compiled_data[7]
+    #print(parent_instructors)
+
+    # raw, dict, conv
+    parent_instructors_field = compiled_data[8]
+    #print(parent_instructors_field)
+
+
+    chromosome = []
+
+    temp = []
+
+
+
+
+
+
+
+    for level in range(len(levels)):
+
+        # no 1st segment yet make this NOW!
+
+        schedule_conditions = 0
+
+        num_subjects = len(parent_subjects[0][level])
+
+        component_schedule = []
+        schedule_temp = []
+
+        # creates randomized binary thing for schedule, keeps repeating until the amount of 1s reaches the minimum number (number of subjects)
+
+        while schedule_conditions != num_subjects:
+        
+            component_schedule = rand_schedule()
+            schedule_conditions = component_schedule.count(1)
+            print(component_schedule)
+
+        print(num_subjects)
+
+    
+def rand_schedule():
+
+    schedule_temp = []
+    schedule = ()
+
+    for x in range(4):
+
+        for x in range(4):
+
+            schedule_temp.append(random.randint(0,1))
+
+    schedule = tuple(schedule_temp)
+    return schedule
+
+
 
 def convert():
 
@@ -160,9 +293,9 @@ def convert():
 
     # Appends values above to the final return values
 
-    return_values.append(levels)
-    return_values.append(sections)
-    return_values.append(instructors_avail_time)
+    return_values.append(tuple(levels))                     #sadddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+    return_values.append(tuple(sections))
+    return_values.append(tuple(instructors_avail_time))
 
                          
     #                         raw = straight from data set, no prefix = default data, converted data, dict = conversion dictionary for raw data and converted data,                      
@@ -200,10 +333,10 @@ def convert():
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
-    return_values_temp.append(raw_subjects)
-    return_values_temp.append(dict_subjects)
-    return_values_temp.append(subjects)
-    return_values.append(return_values_temp)
+    return_values_temp.append(tuple(raw_subjects))
+    return_values_temp.append(tuple(dict_subjects))
+    return_values_temp.append(tuple(subjects))
+    return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
                 
@@ -227,10 +360,10 @@ def convert():
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
-    return_values_temp.append(raw_buildings)
-    return_values_temp.append(dict_buildings)
-    return_values_temp.append(buildings)
-    return_values.append(return_values_temp)
+    return_values_temp.append(tuple(raw_buildings))
+    return_values_temp.append(tuple(dict_buildings))
+    return_values_temp.append(tuple(buildings))
+    return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
 
@@ -260,9 +393,9 @@ def convert():
     
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
-    return_values_temp.append(raw_floors)
-    return_values_temp.append(floors)
-    return_values.append(return_values_temp)
+    return_values_temp.append(tuple(raw_floors))
+    return_values_temp.append(tuple(floors))
+    return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
     # Creates raw rooms data
@@ -291,9 +424,9 @@ def convert():
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
-    return_values_temp.append(raw_rooms)
-    return_values_temp.append(rooms)
-    return_values.append(return_values_temp)
+    return_values_temp.append(tuple(raw_rooms))
+    return_values_temp.append(tuple(rooms))
+    return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
                 
@@ -315,10 +448,10 @@ def convert():
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
-    return_values_temp.append(raw_instructors)
-    return_values_temp.append(dict_instructors)
-    return_values_temp.append(instructors)
-    return_values.append(return_values_temp)
+    return_values_temp.append(tuple(raw_instructors))
+    return_values_temp.append(tuple(dict_instructors))
+    return_values_temp.append(tuple(instructors))
+    return_values.append(tuple(return_values_temp))
     return_values_temp=[]
         
 
@@ -356,10 +489,10 @@ def convert():
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
-    return_values_temp.append(raw_instructors_field)
-    return_values_temp.append(dict_instructors_field)
-    return_values_temp.append(instructors_field)
-    return_values.append(return_values_temp)
+    return_values_temp.append(tuple(raw_instructors_field))
+    return_values_temp.append(tuple(dict_instructors_field))
+    return_values_temp.append(tuple(instructors_field))
+    return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
 
@@ -431,6 +564,8 @@ def convert():
     
     return return_values
 
+
+
 def start():    
 
 
@@ -475,8 +610,10 @@ def start():
     parent_instructors_field = compiled_data[8]
     #print(parent_instructors_field)
 
-  
 
+    constrained_randomizer(compiled_data)
+
+    
     
 
 start()
