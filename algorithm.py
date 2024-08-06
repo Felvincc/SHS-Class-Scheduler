@@ -6,7 +6,7 @@ def info():
 
     all_info=[]
 
-    levels =        (
+    levels =        (                                       #CHANGE ME BACK
 
                         "g11_steam",
                         "g12_steam"
@@ -226,37 +226,69 @@ def constrained_randomizer(compiled_data):
 
         schedule_conditions = 0
 
-        num_subjects = len(parent_subjects[0][level])
+        
 
-        component_schedule = []
-        schedule_temp = []
+        
 
         # creates randomized binary thing for schedule, keeps repeating until the amount of 1s reaches the minimum number (number of subjects)
 
-        while schedule_conditions != num_subjects:
-        
-            component_schedule = rand_schedule()
-            schedule_conditions = component_schedule.count(1)
-            print(component_schedule)
+        num_subjects = len(parent_subjects[0][level])
 
-        print(num_subjects)
+        component_schedule = rand_schedule(num_subjects)
+            
+        #print(component_schedule)
+
+
+        # creates randomized string of numbers based on how many subjects there are. Code here is a bit redundant, definitely fix later (definitely wont)
+
+        conv_subjects = parent_subjects[2][level]
+
+        component_subject = rand_subjects(conv_subjects)
+
+        
+
+
+def buildings_floors_rooms      
+
+def rand_subjects(conv_subjects):
+
+    num_subjects = len(conv_subjects)
+
+    component_subject = random.sample(range(num_subjects), num_subjects)
+
+    component_subject = tuple(component_subject)
+
+    return component_subject
 
     
-def rand_schedule():
+def rand_schedule(num_subjects):
 
-    schedule_temp = []
-    schedule = ()
+    schedule_conditions = 0
 
-    for x in range(4):
-
-        for x in range(4):
-
-            schedule_temp.append(random.randint(0,1))
-
-    schedule = tuple(schedule_temp)
-    return schedule
+    component_schedule = []
 
 
+    while schedule_conditions != num_subjects:
+
+        component_schedule=[]
+
+        for _ in range(4):
+
+            for _ in range(4):
+
+                component_schedule.append(random.randint(0,1))
+
+        schedule_conditions = component_schedule.count(1)
+
+    component_schedule = tuple()
+
+    return component_schedule
+        
+
+        
+        
+        
+            
 
 def convert():
 
