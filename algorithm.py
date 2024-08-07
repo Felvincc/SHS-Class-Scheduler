@@ -274,7 +274,11 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted)
 
     # restricted format: [building 1, [floor], [room]], [building 2, [floor], [room]]
 
-    restricted = [[[],[], ],[[],[], ]]          # BE SURE YOU APPEND THE RESTRICTED BUILDING AT THE LAST, NEVER AT THE FIRST
+
+    # BE SURE YOU APPEND THE RESTRICTED BUILDING AT THE LAST, NEVER AT THE FIRST
+
+
+    restricted = [ [[[]],0],[ [[]],1]]          #pink = building, blue = floors, yellow = rooms
 
     in_list = True
 
@@ -802,6 +806,7 @@ def start():
     #  you should turn this into a function soon 
 
     restricted = []
+    restricted_block = [[]]
 
 
     # restricted area maker thing, format: [building 1, [floor], [room]], [building 2, [floor], [room]]
@@ -810,7 +815,7 @@ def start():
     for x in (parent_buildings[2]):
 
         restricted.append(list())
-        restricted[x].append(list())
+        restricted[x].append(restricted_block)
         
     print(restricted)
         
