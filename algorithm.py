@@ -35,6 +35,7 @@ def info():
                         "oralcom"
                         "peh",
                         "cffs",
+                        "mystery"
 
                     ),
 
@@ -56,7 +57,7 @@ def info():
     buildings =     (
 
                         "suhs",
-                        "guy_hall"
+                        "guy_hall",           
 
                     )
     
@@ -74,7 +75,7 @@ def info():
     rooms =         (
         
                         12,
-                        4
+                        6
         
                     )
     
@@ -166,7 +167,7 @@ def fitness ():             #checks fitness level
     ideal_subject_placement = ("0120","0120")
 
 
-def constrained_randomizer(compiled_data):
+def constrained_randomizer(compiled_data, restricted):
 
     compiled_data=convert()
     #print(compiled_data)
@@ -212,56 +213,205 @@ def constrained_randomizer(compiled_data):
 
     chromosome = []
 
-    temp = []
-
-
-
-
-
 
 
     for level in range(len(levels)):
 
-        # no 1st segment yet make this NOW!
+        for section in range(sections[level]):
 
-        schedule_conditions = 0
+            chromosome.append(level)
 
-        
+            # no 1st segment yet make this NOW!
 
-        
+            schedule_conditions = 0
 
-        # creates randomized binary thing for schedule, keeps repeating until the amount of 1s reaches the minimum number (number of subjects)
+            '''      This code snippet is dumb, but il keep it here
+                        
 
-        num_subjects = len(parent_subjects[0][level])
+            # creates randomized binary thing for schedule, keeps repeating until the amount of 1s reaches the minimum number (number of subjects)
 
-        component_schedule = rand_schedule(num_subjects)
+            num_subjects = len(parent_subjects[0][level])+1
+
+            component_schedule = rand_schedule(num_subjects)
+
+            chromosome.append(component_schedule)
+                
+            #print(component_schedule)
+            '''
+
+
+            # creates the randomized subject schedule
+
+            num_subjects = len(parent_subjects[0][level])+1
+
+            conv_subjects = parent_subjects[2][level]
+
+            component_subject = rand_subjects_schedule(num_subjects)
+
+            chromosome.append(component_subject)
+
+            #print(component_subject)
+
+
+            # gets the randomized building, floors, and rooms values
+
+            num_buildings = len(parent_buildings[0])-1
+
+            #print(num_buildings)
             
-        #print(component_schedule)
+            buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted )
 
+            
 
-        # creates randomized string of numbers based on how many subjects there are. Code here is a bit redundant, definitely fix later (definitely wont)
-
-        conv_subjects = parent_subjects[2][level]
-
-        component_subject = rand_subjects(conv_subjects)
+            
 
         
 
 
-def buildings_floors_rooms      
+def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted):
 
-def rand_subjects(conv_subjects):
+    # fix restricted stuff
 
-    num_subjects = len(conv_subjects)
+    # restricted format: [building 1, [floor], [room]], [building 2, [floor], [room]]
 
-    component_subject = random.sample(range(num_subjects), num_subjects)
+    restricted = [[[],[], ],[[],[], ]]          # BE SURE YOU APPEND THE RESTRICTED BUILDING AT THE LAST, NEVER AT THE FIRST
 
-    component_subject = tuple(component_subject)
+    in_list = True
+
+    while in_list:
+
+        chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
+        in_list = chosen_building in restricted[chosen_building]
+
+
+    in_list = True
+
+    while in_list:
+
+        chosen_floor = random.randint(0, len(parent_floors[1][chosen_building]))
+        in_list = chosen_floor in restricted[chosen_building][0]
+
+
+    in_list = True
+
+    while in_list:
+
+        chosen_room = random.randint(0,len(parent_rooms[1][chosen_building]))
+
+        in_list = chosen_room in restricted[chosen_building][1]
+
+    chosen_building = str(chosen_building).zfill(2)
+
+    chosen_floor = str(chosen_floor).zfill(2)
+
+    chosen_room = str(chosen_room).zfill(2)
+
+    #print(chosen_building)
+    #print(chosen_floor)
+    #print(chosen_room)
+    #print()
+    
+
+   
+
+
+    
+
+def rand_subjects_schedule(num_subjects):            # this function turned out more complex than expected
+
+    component_subject_temp = []
+
+    component_subject = []
+
+    temp = []
+
+    num_subjects_list = []
+
+    # turns the num of subjects into a list
+
+    for x in range(num_subjects):
+        num_subjects_list.append(x)
+
+    # removes the 0 from the newly made list, (0 is intended for no subjects)
+
+    num_subjects_list = num_subjects_list[1:]
+
+    # random sample thing for the arrangement of subjects
+
+    temp = random.sample(num_subjects_list, num_subjects-1)
+
+    # takes the center of the num of subjects
+
+    half = num_subjects // 2
+
+    # random number thing (will make sense later)
+
+    random_half = random.randint(0,1)
+
+    # splits the subject schedule for the 2 days of class
+
+    first_half = temp[:half]
+
+    second_half = temp[half:]
+    
+    # subtracts how many subjects per day to the available time in the schedule (8)
+
+    first_half_blank = 8 - len(first_half)
+
+    second_half_blank = 8 - len(second_half)
+
+    # adds the blank subjects to fill it up
+
+    for x in range(first_half_blank):
+
+        temp = random.randint(0,len(first_half))
+
+        first_half.insert(temp, 0)
+
+    for x in range(second_half_blank):
+
+        temp = random.randint(0,len(first_half))
+
+        second_half.insert(temp, 0)
+
+    first_half = tuple(first_half)
+
+    second_half = tuple(second_half)
+
+    # uses the random number generated to determine the order of the halves (in odd number cases, the bigger number will always be last, this is to prevent that)
+
+    if random_half == 0:
+
+        component_subject_temp = first_half, second_half
+
+    else:
+
+        component_subject_temp = second_half, first_half
+
+
+    #turns the stuff into a tuple (apparently tuples are more efficient, but i dont know if its less efficient to convert them, or leave them as lists)
+
+    for tuple_elem in component_subject_temp:
+
+        temp = []
+        
+        for int_elem in tuple_elem:
+
+            str_elem = str(int_elem).zfill(2)
+
+            temp.append(str_elem)
+
+        temp_2 = tuple(temp)
+
+        component_subject.append(temp_2)
+
+        
+
 
     return component_subject
 
-    
-def rand_schedule(num_subjects):
+
+def rand_schedule(num_subjects):        # currently serves no purpose (will indefinetly stay with no purpose)
 
     schedule_conditions = 0
 
@@ -366,7 +516,7 @@ def convert():
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
     return_values_temp.append(tuple(raw_subjects))
-    return_values_temp.append(tuple(dict_subjects))
+    return_values_temp.append(dict_subjects)
     return_values_temp.append(tuple(subjects))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
@@ -382,6 +532,7 @@ def convert():
 
     dict_buildings = {index: element for index, element in enumerate(all_info[label["buildings"]])}
 
+
     # Creates default buildings data
 
     buildings = []
@@ -393,9 +544,10 @@ def convert():
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
     return_values_temp.append(tuple(raw_buildings))
-    return_values_temp.append(tuple(dict_buildings))
+    return_values_temp.append(dict_buildings)
     return_values_temp.append(tuple(buildings))
     return_values.append(tuple(return_values_temp))
+
     return_values_temp=[]
 
 
@@ -418,6 +570,8 @@ def convert():
 
             if temp == raw_floors_elem-1:
 
+                floors_temp = tuple(floors_temp)
+
                 floors.append(floors_temp)
 
                 floors_temp=[]
@@ -429,6 +583,7 @@ def convert():
     return_values_temp.append(tuple(floors))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
+
 
     # Creates raw rooms data
       
@@ -461,6 +616,7 @@ def convert():
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
+
                 
     # Creates raw instructors
 
@@ -481,7 +637,7 @@ def convert():
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
     return_values_temp.append(tuple(raw_instructors))
-    return_values_temp.append(tuple(dict_instructors))
+    return_values_temp.append(dict_instructors)
     return_values_temp.append(tuple(instructors))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
@@ -522,7 +678,7 @@ def convert():
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
 
     return_values_temp.append(tuple(raw_instructors_field))
-    return_values_temp.append(tuple(dict_instructors_field))
+    return_values_temp.append(dict_instructors_field)
     return_values_temp.append(tuple(instructors_field))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
@@ -594,6 +750,7 @@ def convert():
         print("\ninstructors_avail_time: ")
         print(instructors_avail_time)
     
+
     return return_values
 
 
@@ -642,8 +799,23 @@ def start():
     parent_instructors_field = compiled_data[8]
     #print(parent_instructors_field)
 
+    #  you should turn this into a function soon 
 
-    constrained_randomizer(compiled_data)
+    restricted = []
+
+
+    # restricted area maker thing, format: [building 1, [floor], [room]], [building 2, [floor], [room]]
+    # BE SURE YOU APPEND THE RESTRICTED BUILDING, FLOOR, OR ANYTHING FOR THAT MATTER, AT THE LAST, NEVER AT THE FIRST
+
+    for x in (parent_buildings[2]):
+
+        restricted.append(list())
+        restricted[x].append(list())
+        
+    print(restricted)
+        
+
+    constrained_randomizer(compiled_data, restricted)
 
     
     
