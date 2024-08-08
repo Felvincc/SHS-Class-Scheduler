@@ -63,10 +63,10 @@ def info():
     
     all_info.append(buildings)
 
-    floors =        (                  # COUNT FROM ZERO, INCLUDE GROUND FLOOR (ex. if a building has 3 floors, count as 0, 1, 2)         
+    floors =        (                  # COUNT FROM one)         
         
-                        2,
-                        2
+                        3,
+                        3
         
                     )
     
@@ -272,48 +272,55 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted)
 
     # fix restricted stuff
 
-    # restricted format: [building 1, [floor], [room]], [building 2, [floor], [room]]
+    # restricted format:  [ [[floor], [room], building 1], [[floor], [room], building 2] ]
 
 
     # BE SURE YOU APPEND THE RESTRICTED BUILDING AT THE LAST, NEVER AT THE FIRST
 
 
-    restricted = [ [[[]],0],[ [[]],1]]          #pink = building, blue = floors, yellow = rooms
+    #restricted = [ [[[]],0],[ [[]],1]]          #pink = building, blue = floors, yellow = rooms
 
-    in_list = True
+    for x in range(8):
 
-    while in_list:
+        in_list = True
 
-        chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
-        in_list = chosen_building in restricted[chosen_building]
+        while in_list:
+
+            chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
+            in_list = chosen_building in restricted[x][chosen_building]
+
+        #restricted[x][chosen_building].append(chosen_building)
+
+        in_list = True
+
+        print(restricted[x][chosen_building])
+
+        while in_list:
+
+            chosen_floor = random.randint(0, len(parent_floors[1][chosen_building]))
+            in_list = chosen_floor in restricted[x][chosen_building][0]
+
+        #restricted[x][chosen_building][0].append
 
 
-    in_list = True
+        in_list = True
 
-    while in_list:
+        while in_list:
 
-        chosen_floor = random.randint(0, len(parent_floors[1][chosen_building]))
-        in_list = chosen_floor in restricted[chosen_building][0]
+            chosen_room = random.randint(0,len(parent_rooms[1][chosen_building]))
 
+            in_list = chosen_room in restricted[x][chosen_building][1][chosen_floor]
 
-    in_list = True
+        chosen_building = str(chosen_building).zfill(2)
 
-    while in_list:
+        chosen_floor = str(chosen_floor).zfill(2)
 
-        chosen_room = random.randint(0,len(parent_rooms[1][chosen_building]))
+        chosen_room = str(chosen_room).zfill(2)
 
-        in_list = chosen_room in restricted[chosen_building][1]
-
-    chosen_building = str(chosen_building).zfill(2)
-
-    chosen_floor = str(chosen_floor).zfill(2)
-
-    chosen_room = str(chosen_room).zfill(2)
-
-    #print(chosen_building)
-    #print(chosen_floor)
-    #print(chosen_room)
-    #print()
+        print(chosen_building)
+        print(chosen_floor)
+        print(chosen_room)
+        print()
     
 
    
@@ -588,6 +595,7 @@ def convert():
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
+    print(floors)
 
     # Creates raw rooms data
       
@@ -805,20 +813,38 @@ def start():
 
     #  you should turn this into a function soon 
 
-    restricted = []
-    restricted_block = [[]]
+   
 
 
-    # restricted area maker thing, format: [building 1, [floor], [room]], [building 2, [floor], [room]]
+    # restricted area maker thing, format: [[floor], [room], building 1], [[floor], [room], building 2]
     # BE SURE YOU APPEND THE RESTRICTED BUILDING, FLOOR, OR ANYTHING FOR THAT MATTER, AT THE LAST, NEVER AT THE FIRST
 
-    for x in (parent_buildings[2]):
+    restricted = []
+    i = [ [[],[],  ] , [[],[],  ] ]
+    temp = []
 
-        restricted.append(list())
-        restricted[x].append(restricted_block)
+    for restricted_list_num in range(8):      # appends the 8 lists correspondent to the 8 available schedules per day
+
+        restricted.append(i)
+
+        for floors in parent_floors[1]:
+            print(floors)
+            pass
         
+
+       
+
+          
+     
+  
+
+ 
+
+
+    print()
     print(restricted)
-        
+    
+    print(parent_buildings[2])
 
     constrained_randomizer(compiled_data, restricted)
 
