@@ -1,5 +1,6 @@
 import sys
 import random
+import os
 
 
 def info():
@@ -17,8 +18,8 @@ def info():
 
 
     section =       (
-                        17,
-                        5
+                        18,
+                        18
                     )
     
     all_info.append(section)
@@ -72,10 +73,10 @@ def info():
     
     all_info.append(floors)
 
-    rooms =         (
+    rooms =         (           #count from 1
         
                         12,
-                        6
+                        12
         
                     )
     
@@ -246,7 +247,7 @@ def constrained_randomizer(compiled_data, restricted):
 
             conv_subjects = parent_subjects[2][level]
 
-            component_subject = rand_subjects_schedule(num_subjects)
+            component_subject, ignore_list = rand_subjects_schedule(num_subjects)
 
             chromosome.append(component_subject)
 
@@ -259,16 +260,25 @@ def constrained_randomizer(compiled_data, restricted):
 
             #print(num_buildings)
             
-            buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted )
+            address_module, error=buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list )
 
-            
+            if error:
 
-            
+                print("error_01")
+                exit()
+                
 
-        
+    print(level)
+    print(section)
 
+    pass
+           
 
-def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted):
+def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list):
+
+    address_module = []
+
+    
 
     # fix restricted stuff
 
@@ -277,56 +287,132 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted)
 
     # BE SURE YOU APPEND THE RESTRICTED BUILDING AT THE LAST, NEVER AT THE FIRST
 
-
-    #restricted = [ [[[]],0],[ [[]],1]]          #pink = building, blue = floors, yellow = rooms
-
-    for x in range(8):
-
-        in_list = True
-
-        while in_list:
-
-            chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
-            in_list = chosen_building in restricted[x][chosen_building]
-
-        #restricted[x][chosen_building].append(chosen_building)
-
-        in_list = True
-
-        print(restricted[x][chosen_building])
-
-        while in_list:
-
-            chosen_floor = random.randint(0, len(parent_floors[1][chosen_building]))
-            in_list = chosen_floor in restricted[x][chosen_building][0]
-
-        #restricted[x][chosen_building][0].append
-
-
-        in_list = True
-
-        while in_list:
-
-            chosen_room = random.randint(0,len(parent_rooms[1][chosen_building]))
-
-            in_list = chosen_room in restricted[x][chosen_building][1][chosen_floor]
-
-        chosen_building = str(chosen_building).zfill(2)
-
-        chosen_floor = str(chosen_floor).zfill(2)
-
-        chosen_room = str(chosen_room).zfill(2)
-
-        print(chosen_building)
-        print(chosen_floor)
-        print(chosen_room)
-        print()
     
+    for day in range(2):
 
-   
+        for x in range(8):
+
+            overwrite = False
 
 
-    
+            if x in ignore_list[day]:
+
+                error = False
+
+                overwrite = True
+
+            in_list = True
+
+            error_01 = 0
+
+            while in_list:
+            
+                chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
+
+                print(chosen_building)
+                in_list = chosen_building in restricted[day][x][chosen_building]
+
+                print(restricted[day][x][chosen_building])
+
+                error_01 = error_01 + 1
+
+                if error_01 == 10000:
+
+                    error = True
+                    
+                    return "000000", error
+                    
+                    
+
+
+            in_list = True
+
+            error_01 = 0
+
+            while in_list:
+
+                chosen_floor = random.randint(1, len(parent_floors[1][chosen_building]))
+                in_list = chosen_floor in restricted[day][x][chosen_building][0]
+
+                error_01 = error_01 + 1
+
+                if error_01 == 10000:
+
+                    error = True
+                    
+                    return "000000", error
+
+        
+
+
+            in_list = True
+
+            error_01 = 0
+
+            while in_list:
+
+                chosen_room = random.randint(1,len(parent_rooms[1][chosen_building]))
+
+                in_list = chosen_room in restricted[day][x][chosen_building][1][chosen_floor-1]
+
+                error_01 = error_01 + 1
+
+                if error_01 == 10000:
+
+                    error = True
+
+                    return "000000", error
+
+            # inshallah you will get through debugging
+            
+            # appends the the values to restricted to preven them from showing up again
+
+            restricted[day][x][chosen_building][1][chosen_floor-1].append(chosen_room)
+
+            if len(restricted[day][x][chosen_building][1][chosen_floor-1]) == len(parent_rooms[1][chosen_building]):
+
+                restricted[day][x][chosen_building][0].append(chosen_floor)
+
+            if len(restricted[day][x][chosen_building][0]) == len(parent_floors[1][chosen_building]):
+
+                restricted[day][x][chosen_building].append(chosen_building)
+
+        
+
+
+            
+
+            # pads all the values by 2 (1 = 01, 12 = 12, 6 = 06)
+
+            chosen_building = str(chosen_building+1).zfill(2)
+
+            chosen_floor = str(chosen_floor).zfill(2)
+
+            chosen_room = str(chosen_room).zfill(2)
+
+            # adds all the padded stuff together to complete the moudle
+        
+            address_module_temp = chosen_building+chosen_floor+chosen_room
+
+            if overwrite:
+                address_module_temp = "000000"
+
+            address_module.append(address_module_temp)
+
+
+            error = False
+            debug = True
+
+            if debug:
+                os.system('cls')
+                print(restricted)
+
+    print()
+    print(ignore_list)
+    print(address_module)
+
+    return address_module, error
+
 
 def rand_subjects_schedule(num_subjects):            # this function turned out more complex than expected
 
@@ -416,10 +502,25 @@ def rand_subjects_schedule(num_subjects):            # this function turned out 
 
         component_subject.append(temp_2)
 
+
+    ignore_list = []
+
+    for x in range(2):
+
+        ignore_list.append([])
+
+        for y in range(8):
+
+            ignore = "00" in component_subject[x][y]
+
+            if ignore:
+                ignore_list[x].append(y)
         
+        ignore_list[x] = tuple(ignore_list[x])
+        
+    ignore_list = tuple(ignore_list)
 
-
-    return component_subject
+    return component_subject, ignore_list
 
 
 def rand_schedule(num_subjects):        # currently serves no purpose (will indefinetly stay with no purpose)
@@ -445,11 +546,6 @@ def rand_schedule(num_subjects):        # currently serves no purpose (will inde
 
     return component_schedule
         
-
-        
-        
-        
-            
 
 def convert():
 
@@ -595,7 +691,7 @@ def convert():
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
-    print(floors)
+    #print(floors)
 
     # Creates raw rooms data
       
@@ -766,7 +862,6 @@ def convert():
     return return_values
 
 
-
 def start():    
 
 
@@ -816,35 +911,49 @@ def start():
    
 
 
-    # restricted area maker thing, format: [[floor], [room], building 1], [[floor], [room], building 2]
-    # BE SURE YOU APPEND THE RESTRICTED BUILDING, FLOOR, OR ANYTHING FOR THAT MATTER, AT THE LAST, NEVER AT THE FIRST
+    # restricted area maker thing, format:  []   [ [[floor], [room], building 1], [[floor], [room], building 2]  ], [repeat]   ]
+    #                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    #                                             one schedule module (for lack of a better term) repeat 8 times
 
     restricted = []
-    i = [ [[],[],  ] , [[],[],  ] ]
-    temp = []
+    my_list = []
+    i = [[],[]]
 
-    for restricted_list_num in range(8):      # appends the 8 lists correspondent to the 8 available schedules per day
 
-        restricted.append(i)
+    for day in range(2):
 
-        for floors in parent_floors[1]:
-            print(floors)
-            pass
-        
+        my_list = []
 
-       
+        restricted.append(my_list)
 
-          
-     
-  
+        for restricted_list_num in range(8):      # appends the 8 lists correspondent to the 8 available schedules per day
+
+            my_list = []
+            restricted[day].append(my_list)
+
+            for floors in range(len(parent_floors[1])): # appends the frs block to each schedule block, x amounts of times (x = how many buildings there are)
+
+                i = [[],[]]
+                
+                restricted[day][restricted_list_num].append(i)       
+
+                y=-1
+
+        for restricted_list_num in range(8):    # goes 0 - 7
+
+            a = - 1
+            
+            for x in parent_floors[1]:
+
+                a = a + 1       #im not sure if theres a better way to get the current iteration, but this seems to work jsut fine
+
+                for y in x:
+
+                    my_list = []
+
+                    restricted[day][restricted_list_num][a][1].append(my_list)   #appends the number of rooms per floor in each building block
 
  
-
-
-    print()
-    print(restricted)
-    
-    print(parent_buildings[2])
 
     constrained_randomizer(compiled_data, restricted)
 
