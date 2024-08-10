@@ -10,7 +10,7 @@ def info():
     levels =        (                                       #CHANGE ME BACK
 
                         "g11_steam",
-                        "g12_steam"
+                        #"g12_steam"
 
                     )
     
@@ -18,8 +18,8 @@ def info():
 
 
     section =       (
-                        18,
-                        18
+                        36,
+                        #19
                     )
     
     all_info.append(section)
@@ -58,7 +58,7 @@ def info():
     buildings =     (
 
                         "suhs",
-                        "guy_hall",           
+                        #"guy_hall",           
 
                     )
     
@@ -67,7 +67,7 @@ def info():
     floors =        (                  # COUNT FROM one)         
         
                         3,
-                        3
+                        #3
         
                     )
     
@@ -76,11 +76,13 @@ def info():
     rooms =         (           #count from 1
         
                         12,
-                        12
+                        #12
         
                     )
     
     all_info.append(rooms)
+
+    #                   Make exceptions list for rooms that are not able to be used (ex. faculty rooms)
 
     instructors =   (
 
@@ -115,24 +117,24 @@ def info():
     instructors_avail_time = (
 
                     (
-                        "1111",
-                        "1111",
-                        "1111",
-                        "1111"
+                        "111",
+                        "111",
+                        "111",
+                        "111"
                     ),
 
                     (
-                        "1111",
-                        "1111",
-                        "1111",
-                        "1111"
+                        "111",
+                        "111",
+                        "111",
+                        "111"
                     ),
 
                     (
-                        "1111",
-                        "1111",
-                        "1111",
-                        "1111"
+                        "111",
+                        "111",
+                        "111",
+                        "111"
                     )
                 )
     
@@ -166,7 +168,6 @@ def fitness ():             #checks fitness level
     difficulty_2 = ()
 
     ideal_subject_placement = ("0120","0120")
-
 
 def constrained_randomizer(compiled_data, restricted):
 
@@ -266,14 +267,9 @@ def constrained_randomizer(compiled_data, restricted):
 
                 print("error_01")
                 exit()
-                
-
-    print(level)
-    print(section)
-
+   
     pass
            
-
 def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list):
 
     address_module = []
@@ -290,10 +286,9 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
     
     for day in range(2):
 
-        for x in range(8):
+        for x in range(6):
 
             overwrite = False
-
 
             if x in ignore_list[day]:
 
@@ -309,10 +304,10 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
             
                 chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
 
-                print(chosen_building)
+                
                 in_list = chosen_building in restricted[day][x][chosen_building]
 
-                print(restricted[day][x][chosen_building])
+            
 
                 error_01 = error_01 + 1
 
@@ -322,8 +317,6 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
                     
                     return "000000", error
                     
-                    
-
 
             in_list = True
 
@@ -343,8 +336,6 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
                     return "000000", error
 
         
-
-
             in_list = True
 
             error_01 = 0
@@ -378,10 +369,6 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
                 restricted[day][x][chosen_building].append(chosen_building)
 
         
-
-
-            
-
             # pads all the values by 2 (1 = 01, 12 = 12, 6 = 06)
 
             chosen_building = str(chosen_building+1).zfill(2)
@@ -401,18 +388,16 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 
 
             error = False
-            debug = True
+            debug = False
 
             if debug:
                 os.system('cls')
                 print(restricted)
-
-    print()
-    print(ignore_list)
-    print(address_module)
+                print()
+                print(ignore_list)
+                print(address_module)
 
     return address_module, error
-
 
 def rand_subjects_schedule(num_subjects):            # this function turned out more complex than expected
 
@@ -453,9 +438,9 @@ def rand_subjects_schedule(num_subjects):            # this function turned out 
     
     # subtracts how many subjects per day to the available time in the schedule (8)
 
-    first_half_blank = 8 - len(first_half)
+    first_half_blank = 6 - len(first_half)
 
-    second_half_blank = 8 - len(second_half)
+    second_half_blank = 6 - len(second_half)
 
     # adds the blank subjects to fill it up
 
@@ -509,7 +494,7 @@ def rand_subjects_schedule(num_subjects):            # this function turned out 
 
         ignore_list.append([])
 
-        for y in range(8):
+        for y in range(6):
 
             ignore = "00" in component_subject[x][y]
 
@@ -519,9 +504,9 @@ def rand_subjects_schedule(num_subjects):            # this function turned out 
         ignore_list[x] = tuple(ignore_list[x])
         
     ignore_list = tuple(ignore_list)
+    
 
     return component_subject, ignore_list
-
 
 def rand_schedule(num_subjects):        # currently serves no purpose (will indefinetly stay with no purpose)
 
@@ -546,7 +531,6 @@ def rand_schedule(num_subjects):        # currently serves no purpose (will inde
 
     return component_schedule
         
-
 def convert():
 
     temp = []
@@ -861,7 +845,6 @@ def convert():
 
     return return_values
 
-
 def start():    
 
 
@@ -926,7 +909,7 @@ def start():
 
         restricted.append(my_list)
 
-        for restricted_list_num in range(8):      # appends the 8 lists correspondent to the 8 available schedules per day
+        for restricted_list_num in range(6):      # appends the 8 lists correspondent to the 8 available schedules per day
 
             my_list = []
             restricted[day].append(my_list)
@@ -939,7 +922,7 @@ def start():
 
                 y=-1
 
-        for restricted_list_num in range(8):    # goes 0 - 7
+        for restricted_list_num in range(6):    # goes 0 - 7
 
             a = - 1
             
