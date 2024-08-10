@@ -18,7 +18,7 @@ def info():
 
 
     section =       (
-                        36,
+                        45,
                         #19
                     )
     
@@ -36,7 +36,7 @@ def info():
                         "oralcom"
                         "peh",
                         "cffs",
-                        "mystery"
+
 
                     ),
 
@@ -272,9 +272,8 @@ def constrained_randomizer(compiled_data, restricted):
            
 def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list):
 
-    address_module = []
 
-    
+    address_module = []
 
     # fix restricted stuff
 
@@ -304,14 +303,11 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
             
                 chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
 
-                
-                in_list = chosen_building in restricted[day][x][chosen_building]
-
-            
+                in_list = chosen_building in restricted[day][x]
 
                 error_01 = error_01 + 1
 
-                if error_01 == 10000:
+                if error_01 == 500000:
 
                     error = True
                     
@@ -325,11 +321,18 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
             while in_list:
 
                 chosen_floor = random.randint(1, len(parent_floors[1][chosen_building]))
+
+                
+
                 in_list = chosen_floor in restricted[day][x][chosen_building][0]
+
+        
 
                 error_01 = error_01 + 1
 
-                if error_01 == 10000:
+                
+
+                if error_01 == 500000:
 
                     error = True
                     
@@ -348,7 +351,7 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 
                 error_01 = error_01 + 1
 
-                if error_01 == 10000:
+                if error_01 == 500000:
 
                     error = True
 
@@ -358,15 +361,17 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
             
             # appends the the values to restricted to preven them from showing up again
 
-            restricted[day][x][chosen_building][1][chosen_floor-1].append(chosen_room)
+            if not overwrite:
 
-            if len(restricted[day][x][chosen_building][1][chosen_floor-1]) == len(parent_rooms[1][chosen_building]):
+                restricted[day][x][chosen_building][1][chosen_floor-1].append(chosen_room)
 
-                restricted[day][x][chosen_building][0].append(chosen_floor)
+                if len(restricted[day][x][chosen_building][1][chosen_floor-1]) == len(parent_rooms[1][chosen_building]):
 
-            if len(restricted[day][x][chosen_building][0]) == len(parent_floors[1][chosen_building]):
+                    restricted[day][x][chosen_building][0].append(chosen_floor)
 
-                restricted[day][x][chosen_building].append(chosen_building)
+                if len(restricted[day][x][chosen_building][0]) == len(parent_floors[1][chosen_building]):
+
+                    restricted[day][x][chosen_building].append(chosen_building)
 
         
             # pads all the values by 2 (1 = 01, 12 = 12, 6 = 06)
@@ -389,11 +394,12 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 
             error = False
             debug = False
-
             if debug:
                 os.system('cls')
                 print(restricted)
                 print()
+                print(day)
+                print(x)
                 print(ignore_list)
                 print(address_module)
 
@@ -505,6 +511,7 @@ def rand_subjects_schedule(num_subjects):            # this function turned out 
         
     ignore_list = tuple(ignore_list)
     
+    print(component_subject)
 
     return component_subject, ignore_list
 
