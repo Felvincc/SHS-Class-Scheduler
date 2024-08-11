@@ -1,6 +1,7 @@
 import sys
 import random
 import os
+from collections import defaultdict
 
 
 def info():
@@ -18,7 +19,7 @@ def info():
 
 
     section =       (
-                        45,
+                        53,
                         #19
                     )
     
@@ -36,6 +37,7 @@ def info():
                         "oralcom"
                         "peh",
                         "cffs",
+                      
 
 
                     ),
@@ -393,7 +395,7 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 
 
             error = False
-            debug = False
+            debug = True
             if debug:
                 os.system('cls')
                 print(restricted)
@@ -405,9 +407,14 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 
     return address_module, error
 
-def rand_subjects_schedule(num_subjects):            # this function turned out more complex than expected
 
-    component_subject_temp = []
+# fancy way of making a list with 12 zeros ( [0,0,0,0,0,0,0,0...])
+subject_frequency = defaultdict(lambda: [0] * 12)  
+
+
+# this function turned out more complex than expected
+def rand_subjects_schedule(num_subjects):            
+    '''component_subject_temp = []   # old method, does not have a thingy mabob function to even out the thingy mabobs
 
     component_subject = []
 
@@ -426,7 +433,10 @@ def rand_subjects_schedule(num_subjects):            # this function turned out 
 
     # random sample thing for the arrangement of subjects
 
+
     temp = random.sample(num_subjects_list, num_subjects-1)
+
+    print
 
     # takes the center of the num of subjects
 
@@ -512,8 +522,95 @@ def rand_subjects_schedule(num_subjects):            # this function turned out 
     ignore_list = tuple(ignore_list)
     
     print(component_subject)
+    return component_subject, ignore_list'''
 
-    return component_subject, ignore_list
+    iterations = 100
+
+    global subject_frequency
+    best_component_subject = None
+    best_score = float('inf')
+
+    for _ in range(iterations):
+        component_subject = []
+        num_subjects_list = list(range(1, num_subjects))  # List of subjects, excluding 0
+        
+        # Shuffle the subjects randomly
+        random.shuffle(num_subjects_list)
+        
+        # Determine the split point
+        half = num_subjects // 2
+        
+        # Split the subjects into two groups
+        first_half = num_subjects_list[:half]
+        second_half = num_subjects_list[half:]
+        
+        # Calculate how many blanks ("00") need to be added to each half
+        first_half_blank = 6 - len(first_half)
+        second_half_blank = 6 - len(second_half)
+        
+        # Add blanks to each half
+        for _ in range(first_half_blank):
+            first_half.insert(random.randint(0, len(first_half)), 0)
+        
+        for _ in range(second_half_blank):
+            second_half.insert(random.randint(0, len(second_half)), 0)
+        
+        # Combine halves and pad numbers to two digits
+        first_half = tuple(str(x).zfill(2) for x in first_half)
+        second_half = tuple(str(x).zfill(2) for x in second_half)
+
+        # probably less than ideal way of randomizing the first and half but whaterver
+        temp = random.randint(0,1)
+
+        if temp == 1:
+            component_subject_temp = first_half, second_half
+
+        else:
+            component_subject_temp = second_half, first_half
+        
+        for tuple_elem in component_subject_temp:
+            temp = [str(int_elem).zfill(2) for int_elem in tuple_elem]
+            component_subject.append(tuple(temp))
+        
+        # Calculate the distribution score (lower is better)
+        score = 0
+        for i in range(6):
+            score += subject_frequency[component_subject[0][i]][i]
+            score += subject_frequency[component_subject[1][i]][i + 6]
+
+        # Keep the schedule with the best (lowest) score
+        if score < best_score:
+            best_score = score
+            best_component_subject = component_subject
+
+    # Update the frequency tracker with the best schedule
+    for i in range(6):
+        subject_frequency[best_component_subject[0][i]][i] += 1
+        subject_frequency[best_component_subject[1][i]][i + 6] += 1
+
+    # Create ignore_list
+    ignore_list = []
+
+    for x in range(2):
+        ignore_list.append([])
+        for y in range(6):
+            if best_component_subject[x][y] == "00":
+                ignore_list[x].append(y)
+        ignore_list[x] = tuple(ignore_list[x])
+
+    ignore_list = tuple(ignore_list)
+
+    print(best_component_subject)
+    print(ignore_list)
+
+    return best_component_subject, ignore_list
+
+
+
+
+    
+    pass
+    #return component_subject, ignore_list
 
 def rand_schedule(num_subjects):        # currently serves no purpose (will indefinetly stay with no purpose)
 
