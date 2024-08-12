@@ -36,7 +36,6 @@ def info():
                         "emptech",
                         "oralcom",
                         "peh/cffs",
-                      
 
 
                     ),
@@ -184,12 +183,14 @@ def output(compiled_data, chromosome):
     parent_instructors = compiled_data[7]           # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-    #for x in chromosome:
-        #print(x)
+    for x in chromosome:
+        pass
+        #temp = x[1]
 
-    #print(parent_subjects[1][1])
+    #print(x)
 
 
+ 
 def constrained_randomizer(compiled_data, restricted):
 
     compiled_data=convert()
@@ -224,21 +225,53 @@ def constrained_randomizer(compiled_data, restricted):
     # raw, dict, conv
     parent_instructors_field = compiled_data[8]
 
+
+    temp = []
+    temp2 = []
+    schedule_counter = []
+    increment = -1
+
+
+    # janky code, should probably use a lambda, but i dont know how!!!
+
+    # This loop makes the schedule counter, which tracks the subjects used per schedule, this is used to ensure that there will be as little overlapping in subject schedules
+    for subjects in parent_subjects[0]:
+
+        increment = increment + 1
+
+        schedule_counter.append([])
+
+        # 12 available schedule times in the 2 days
+        for x in range(12):
+
+            # counts the num of subjects, and appends 0 to the amount blah blah blah blah
+            for subject in range(len(subjects)):
+                temp2.append(0)
+            
+            temp.append(temp2)
+            temp2 = []
+
+        schedule_counter[increment].append(temp)
+        temp = []
+
+   
+
+
     chromosome = []
 
     for level in range(len(levels)):
 
         chromosome_temp = []
 
+        # creates the randomized subject schedule       (I MOVED THIS FROM THE LOOP FROM BELOW, IF SOMETHING BREAKS, PUT ME BACk!!!!!!!!!!(or dont))
+        num_subjects = len(parent_subjects[0][level])
+
         for section in range(sections[level]):
 
             chromosome_temp.append(level)
             chromosome_temp.append(section)
 
-            # creates the randomized subject schedule
-            num_subjects = len(parent_subjects[0][level])+1
-
-            component_subject, ignore_list = rand_subjects_schedule(num_subjects)
+            component_subject, ignore_list = rand_subjects_schedule(num_subjects, schedule_counter)
             chromosome_temp.append(tuple(component_subject))
 
             # gets the randomized building, floors, and rooms values
@@ -506,7 +539,7 @@ def rand_subjects_schedule(num_subjects):
         num_subjects_list = list(range(1, num_subjects))  # List of subjects, excluding 0
         
         # Shuffle the subjects randomly
-        random.shuffle(num_subjects_list)
+        #random.shuffle(num_subjects_list)
         
         # Determine the split point
         half = num_subjects // 2
@@ -530,15 +563,8 @@ def rand_subjects_schedule(num_subjects):
         first_half = tuple(str(x).zfill(2) for x in first_half)
         second_half = tuple(str(x).zfill(2) for x in second_half)
 
-        # probably less than ideal way of randomizing the first and half but whaterver
-        temp = random.randint(0,1)
+        component_subject_temp = first_half, second_half
 
-        if temp == 1:
-            component_subject_temp = first_half, second_half
-
-        else:
-            component_subject_temp = second_half, first_half
-        
         for tuple_elem in component_subject_temp:
             temp = [str(int_elem).zfill(2) for int_elem in tuple_elem]
             component_subject.append(tuple(temp))
@@ -571,7 +597,13 @@ def rand_subjects_schedule(num_subjects):
 
     ignore_list = tuple(ignore_list)
 
+
+
+
+
     debug = False
+
+    #print(num_subjects)
 
     if debug:
         print(best_component_subject)
@@ -580,11 +612,6 @@ def rand_subjects_schedule(num_subjects):
     return best_component_subject, ignore_list
 
 
-
-
-    
-    pass
-    #return component_subject, ignore_list
 
 def rand_schedule(num_subjects):        # currently serves no purpose (will indefinetly stay with no purpose)
 
@@ -612,9 +639,7 @@ def rand_schedule(num_subjects):        # currently serves no purpose (will inde
 def convert():
 
     temp = []
-
     return_values = []
-
     return_values_temp=[]
 
 
@@ -651,7 +676,6 @@ def convert():
                          
     #                         raw = straight from data set, no prefix = default data, converted data, dict = conversion dictionary for raw data and converted data,                      
                                
-
     #Creates raw subjects data                                
     
     raw_subjects = all_info[label["subjects"]]
