@@ -38,6 +38,7 @@ def info():
                         "peh/cffs",
 
 
+
                     ),
 
                     (
@@ -45,10 +46,11 @@ def info():
                         "chemistry",
                         "cpar",
                         "filipino",
-                        "biology",
-                        "inqvest",
-                        "physics",
-                        "peh/cffs",
+                        #"biology",
+                        #"inqvest",
+                        #"physics",
+                        #"peh/cffs",
+
                     )
                 )
     
@@ -183,11 +185,7 @@ def output(compiled_data, chromosome):
     parent_instructors = compiled_data[7]           # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-    for x in chromosome:
-        pass
-        #temp = x[1]
-
-    #print(x)
+    #chromome is the final output thing
 
 
  
@@ -238,40 +236,61 @@ def constrained_randomizer(compiled_data, restricted):
     for subjects in parent_subjects[0]:
 
         increment = increment + 1
-
         schedule_counter.append([])
 
         # 12 available schedule times in the 2 days
         for x in range(12):
-
             # counts the num of subjects, and appends 0 to the amount blah blah blah blah
             for subject in range(len(subjects)):
                 temp2.append(0)
-            
+
             temp.append(temp2)
             temp2 = []
 
         schedule_counter[increment].append(temp)
         temp = []
 
+    # combines all the subjects into a set (set to prevent duplicates)
+    single_subjects = set()
+    for subject in parent_subjects[0]:
+        for x in subject:
+            single_subjects.add(x)
+
+    # dictionary comprehension for making a dictionary of all the subjects (with no duplicates) with a id number
+    subject_id_dict = {element: idx + 1 for idx, element in enumerate(single_subjects)}
+
+    #print(subject_id_dict)
    
+    converted_level_subjects =[]
+ 
+    for x in range(len(levels)):
+        temp = []
+        for i in parent_subjects[0][x]:
+            
+            for key, value in subject_id_dict.items():
+                
+                if i == key:
+                    temp.append(value)
+        temp = tuple(temp)
+        converted_level_subjects.append(temp)
+        
+    all_subject_dict = set()
 
-
+    # Main
     chromosome = []
-
     for level in range(len(levels)):
 
         chromosome_temp = []
 
         # creates the randomized subject schedule       (I MOVED THIS FROM THE LOOP FROM BELOW, IF SOMETHING BREAKS, PUT ME BACk!!!!!!!!!!(or dont))
-        num_subjects = len(parent_subjects[0][level])
+        num_subjects = len(parent_subjects[0][level])+1
 
         for section in range(sections[level]):
 
             chromosome_temp.append(level)
             chromosome_temp.append(section)
 
-            component_subject, ignore_list = rand_subjects_schedule(num_subjects, schedule_counter)
+            component_subject, ignore_list = rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, converted_level_subjects, level)
             chromosome_temp.append(tuple(component_subject))
 
             # gets the randomized building, floors, and rooms values
@@ -417,7 +436,7 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 subject_frequency = defaultdict(lambda: [0] * 12)  
 
 # this function turned out more complex than expected
-def rand_subjects_schedule(num_subjects):            
+def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, converted_level_subjects, level):            
     '''component_subject_temp = []   # old method, does not have a thingy mabob function to even out the thingy mabobs
 
     component_subject = []
@@ -528,10 +547,11 @@ def rand_subjects_schedule(num_subjects):
     print(component_subject)
     return component_subject, ignore_list'''
 
+    
     iterations = 100
 
     global subject_frequency
-    best_component_subject = None
+    component_subject_2 = None
     best_score = float('inf')
 
     for _ in range(iterations):
@@ -559,7 +579,7 @@ def rand_subjects_schedule(num_subjects):
         for _ in range(second_half_blank):
             second_half.insert(random.randint(0, len(second_half)), 0)
         
-        # Combine halves and pad numbers to two digits
+        # Combine halves and pad numbers to two digits, also pads the values
         first_half = tuple(str(x).zfill(2) for x in first_half)
         second_half = tuple(str(x).zfill(2) for x in second_half)
 
@@ -578,39 +598,56 @@ def rand_subjects_schedule(num_subjects):
         # Keep the schedule with the best (lowest) score
         if score < best_score:
             best_score = score
-            best_component_subject = component_subject
+            component_subject_2 = component_subject
 
     # Update the frequency tracker with the best schedule
     for i in range(6):
-        subject_frequency[best_component_subject[0][i]][i] += 1
-        subject_frequency[best_component_subject[1][i]][i + 6] += 1
+        subject_frequency[component_subject_2[0][i]][i] += 1
+        subject_frequency[component_subject_2[1][i]][i + 6] += 1
 
     # Create ignore_list
     ignore_list = []
 
+    best_component_subject = []
     for x in range(2):
         ignore_list.append([])
         for y in range(6):
-            if best_component_subject[x][y] == "00":
+            if component_subject_2[x][y] == "00":
                 ignore_list[x].append(y)
         ignore_list[x] = tuple(ignore_list[x])
 
     ignore_list = tuple(ignore_list)
 
+    for x in range(len(component_subject_2)):
+        subjects = component_subject_2[x]
 
+        for i in subjects:
+             
+            if i == "00":
+                best_component_subject.append("00")
+            else:
+                pass
+
+        #pool the mew subjects from here vvvvvvv
+    print(converted_level_subjects[level])
+    
+
+                
+
+
+            
+        
 
 
 
     debug = False
-
     #print(num_subjects)
 
     if debug:
         print(best_component_subject)
         print(ignore_list)
 
-    return best_component_subject, ignore_list
-
+    return component_subject_2, ignore_list
 
 
 def rand_schedule(num_subjects):        # currently serves no purpose (will indefinetly stay with no purpose)
