@@ -187,13 +187,9 @@ def constrained_randomizer(compiled_data, restricted):
     parent_instructors = compiled_data[7]           # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-
     temp = []
-    temp2 = []
     schedule_counter = []
-    increment = -1
-
-
+    
     # combines all the subjects into a set (set to prevent duplicates)
     single_subjects = set()
     for subject in parent_subjects[0]:
@@ -203,10 +199,9 @@ def constrained_randomizer(compiled_data, restricted):
     # dictionary comprehension for making a dictionary of all the subjects (with no duplicates) with a id number
     subject_id_dict = {element: idx + 1 for idx, element in enumerate(single_subjects)}
 
-    #print(subject_id_dict)
-   
+
+    # Creates lists for each level with their respective subject ids
     converted_level_subjects =[]
- 
     for x in range(len(levels)):
         temp = []
         for i in parent_subjects[0][x]:
@@ -219,31 +214,23 @@ def constrained_randomizer(compiled_data, restricted):
         converted_level_subjects.append(temp)
         
     temp = []
-
+    all_converted_subjects = converted_level_subjects[0]+converted_level_subjects[1]
 
     # This loop makes the schedule counter, which tracks the subjects used per schedule, this is used to ensure that there will be as little overlapping in subject schedules
-    for subjects in converted_level_subjects:
+    for x in range(2):
 
-        increment = increment + 1
         schedule_counter.append([])
+        for y in range(12):
 
-        # 12 available schedule times in the 2 days
-        for x in range(12):
-            # counts the num of subjects, and appends 0 to the amount blah blah blah blah
-            for subject in subjects:
-                temp2.append([subject, 0])
-               
-            temp.append(temp2)
-            temp2 = []
-
-        schedule_counter[increment].append(temp)
-        temp = []
-
-    print(converted_level_subjects)
+            schedule_counter[x].append([])
+            for subject in all_converted_subjects:
+                
+                schedule_counter[x][y].append([subject, 0])
 
 
 
-    # Main ========================================================
+
+    # Main constrained randomizer =============================
 
     chromosome = []
     for level in range(len(levels)):
@@ -414,10 +401,11 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
 
     for _ in range(iterations):
         component_subject = []
-        num_subjects_list = list(range(1, num_subjects))  # List of subjects, excluding 0
-        
-        # Shuffle the subjects randomly
-        #random.shuffle(num_subjects_list)
+        num_subjects_list = []
+
+        # makes list a of "XX", where it is repeated x times, where x is the num of subjects
+        for _ in range(1,num_subjects):
+            num_subjects_list.append("XX")
         
         # Determine the split point
         half = num_subjects // 2
@@ -477,18 +465,22 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
     ignore_list = tuple(ignore_list)
     
     for x in range(len(component_subject_2)):
+
         subjects = component_subject_2[x]
-    
         for i in subjects:
              
             if i == "00":
                 best_component_subject.append("00")
             else:
-                pass
-
+                temp = i
+                while i == temp:
+                    for y in converted_level_subjects[level]:
+                        i=2
+                        if y == schedule_counter[x][i]:
+                            pass
         #pool the mew subjects from here vvvvvvv
     #print(converted_level_subjects[level])
-    #print(schedule_counter)
+    
     
                 
 
