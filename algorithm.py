@@ -149,26 +149,6 @@ def info():
 
     
 
-def fitness ():             #checks fitness level
-    
-    ideal_num_breaks_morning = 1
-
-    ideal_num_breaks_afternoon = 1
-
-    ideal_sched_start = 1
-
-    ideal_sched_end = 3
-
-    room_distance = 1
-
-
-    difficulty_0 = ()
-
-    difficulty_1 = ()
-
-    difficulty_2 = ()
-
-    ideal_subject_placement = ("0120","0120")
 
 def output(compiled_data, chromosome):
 
@@ -190,44 +170,22 @@ def output(compiled_data, chromosome):
     
     
 
-    
-
-
-
  
 def constrained_randomizer(compiled_data, restricted):
 
     compiled_data=convert()
     #print(compiled_data)
 
-    #               UNPACKS THE DATA RETURNED FROM convert()
-
-    # Single list/tuple
-    levels = compiled_data[0]
-    
-    # Single list/tuple
-    sections = compiled_data[1]
-
-    # single list/tuple
-    instructors_avail_time = compiled_data[2]
-
-    # raw, dict, conv
-    parent_subjects = compiled_data[3]
-
-    # raw, dict, conv
-    parent_buildings = compiled_data[4]
-
-    # raw, conv
-    parent_floors = compiled_data[5]
-
-    # raw, conv
-    parent_rooms = compiled_data[6]
-
-    # raw, dict, conv
-    parent_instructors = compiled_data[7]
-
-    # raw, dict, conv
-    parent_instructors_field = compiled_data[8]
+    # Unpacks
+    levels = compiled_data[0]                       # Single list/tuple
+    sections = compiled_data[1]                     # Single list/tuple
+    instructors_avail_time = compiled_data[2]       # single list/tuple
+    parent_subjects = compiled_data[3]              # raw, dict, conv
+    parent_buildings = compiled_data[4]             # raw, dict, conv
+    parent_floors = compiled_data[5]                # raw, conv
+    parent_rooms = compiled_data[6]                 # raw, conv
+    parent_instructors = compiled_data[7]           # raw, dict, conv
+    parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
 
     temp = []
@@ -235,28 +193,6 @@ def constrained_randomizer(compiled_data, restricted):
     schedule_counter = []
     increment = -1
 
-    print(parent_subjects[0])
-
-
-    # janky code, should probably use a lambda, but i dont know how!!!
-
-    # This loop makes the schedule counter, which tracks the subjects used per schedule, this is used to ensure that there will be as little overlapping in subject schedules
-    for subjects in parent_subjects[0]:
-
-        increment = increment + 1
-        schedule_counter.append([])
-
-        # 12 available schedule times in the 2 days
-        for x in range(12):
-            # counts the num of subjects, and appends 0 to the amount blah blah blah blah
-            for subject in range(len(subjects)):
-                temp2.append(0)
-
-            temp.append(temp2)
-            temp2 = []
-
-        schedule_counter[increment].append(temp)
-        temp = []
 
     # combines all the subjects into a set (set to prevent duplicates)
     single_subjects = set()
@@ -282,9 +218,33 @@ def constrained_randomizer(compiled_data, restricted):
         temp = tuple(temp)
         converted_level_subjects.append(temp)
         
-    all_subject_dict = set()
+    temp = []
 
-    # Main
+
+    # This loop makes the schedule counter, which tracks the subjects used per schedule, this is used to ensure that there will be as little overlapping in subject schedules
+    for subjects in converted_level_subjects:
+
+        increment = increment + 1
+        schedule_counter.append([])
+
+        # 12 available schedule times in the 2 days
+        for x in range(12):
+            # counts the num of subjects, and appends 0 to the amount blah blah blah blah
+            for subject in subjects:
+                temp2.append([subject, 0])
+               
+            temp.append(temp2)
+            temp2 = []
+
+        schedule_counter[increment].append(temp)
+        temp = []
+
+    print(converted_level_subjects)
+
+
+
+    # Main ========================================================
+
     chromosome = []
     for level in range(len(levels)):
 
@@ -445,116 +405,6 @@ subject_frequency = defaultdict(lambda: [0] * 12)
 
 # this function turned out more complex than expected
 def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, converted_level_subjects, level):            
-    '''component_subject_temp = []   # old method, does not have a thingy mabob function to even out the thingy mabobs
-
-    component_subject = []
-
-    temp = []
-
-    num_subjects_list = []
-
-    # turns the num of subjects into a list
-
-    for x in range(num_subjects):
-        num_subjects_list.append(x)
-
-    # removes the 0 from the newly made list, (0 is intended for no subjects)
-
-    num_subjects_list = num_subjects_list[1:]
-
-    # random sample thing for the arrangement of subjects
-
-
-    temp = random.sample(num_subjects_list, num_subjects-1)
-
-    print
-
-    # takes the center of the num of subjects
-
-    half = num_subjects // 2
-
-    # random number thing (will make sense later)
-
-    random_half = random.randint(0,1)
-
-    # splits the subject schedule for the 2 days of class
-
-    first_half = temp[:half]
-
-    second_half = temp[half:]
-    
-    # subtracts how many subjects per day to the available time in the schedule (8)
-
-    first_half_blank = 6 - len(first_half)
-
-    second_half_blank = 6 - len(second_half)
-
-    # adds the blank subjects to fill it up
-
-    for x in range(first_half_blank):
-
-        temp = random.randint(0,len(first_half))
-
-        first_half.insert(temp, 0)
-
-    for x in range(second_half_blank):
-
-        temp = random.randint(0,len(first_half))
-
-        second_half.insert(temp, 0)
-
-    first_half = tuple(first_half)
-
-    second_half = tuple(second_half)
-
-    # uses the random number generated to determine the order of the halves (in odd number cases, the bigger number will always be last, this is to prevent that)
-
-    if random_half == 0:
-
-        component_subject_temp = first_half, second_half
-
-    else:
-
-        component_subject_temp = second_half, first_half
-
-
-    #turns the stuff into a tuple (apparently tuples are more efficient, but i dont know if its less efficient to convert them, or leave them as lists)
-
-    for tuple_elem in component_subject_temp:
-
-        temp = []
-        
-        for int_elem in tuple_elem:
-
-            str_elem = str(int_elem).zfill(2)
-
-            temp.append(str_elem)
-
-        temp_2 = tuple(temp)
-
-        component_subject.append(temp_2)
-
-
-    ignore_list = []
-
-    for x in range(2):
-
-        ignore_list.append([])
-
-        for y in range(6):
-
-            ignore = "00" in component_subject[x][y]
-
-            if ignore:
-                ignore_list[x].append(y)
-        
-        ignore_list[x] = tuple(ignore_list[x])
-        
-    ignore_list = tuple(ignore_list)
-    
-    print(component_subject)
-    return component_subject, ignore_list'''
-
     
     iterations = 100
 
@@ -657,29 +507,6 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
 
     return component_subject_2, ignore_list
 
-
-def rand_schedule(num_subjects):        # currently serves no purpose (will indefinetly stay with no purpose)
-
-    schedule_conditions = 0
-
-    component_schedule = []
-
-
-    while schedule_conditions != num_subjects:
-
-        component_schedule=[]
-
-        for _ in range(4):
-
-            for _ in range(4):
-
-                component_schedule.append(random.randint(0,1))
-
-        schedule_conditions = component_schedule.count(1)
-
-    component_schedule = tuple()
-
-    return component_schedule
         
 def convert():
 
