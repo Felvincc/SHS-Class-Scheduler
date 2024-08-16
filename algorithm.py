@@ -42,14 +42,14 @@ def info():
                     ),
 
                     (
-                        "english",
-                        "chemistry",
-                        "cpar",
+                        #"english",
+                        #"chemistry",
+                        #"cpar",
                         "filipino",
-                        #"biology",
-                        #"inqvest",
-                        #"physics",
-                        #"peh/cffs",
+                        "biology",
+                        "inqvest",
+                        "physics",
+                        "peh/cffs",
 
                     )
                 )
@@ -187,6 +187,12 @@ def output(compiled_data, chromosome):
 
     #chromome is the final output thing
 
+    
+    
+
+    
+
+
 
  
 def constrained_randomizer(compiled_data, restricted):
@@ -228,6 +234,8 @@ def constrained_randomizer(compiled_data, restricted):
     temp2 = []
     schedule_counter = []
     increment = -1
+
+    print(parent_subjects[0])
 
 
     # janky code, should probably use a lambda, but i dont know how!!!
@@ -617,10 +625,10 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
         ignore_list[x] = tuple(ignore_list[x])
 
     ignore_list = tuple(ignore_list)
-
+    
     for x in range(len(component_subject_2)):
         subjects = component_subject_2[x]
-
+    
         for i in subjects:
              
             if i == "00":
@@ -629,9 +637,9 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
                 pass
 
         #pool the mew subjects from here vvvvvvv
-    print(converted_level_subjects[level])
+    #print(converted_level_subjects[level])
+    #print(schedule_counter)
     
-
                 
 
 
@@ -644,7 +652,7 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
     #print(num_subjects)
 
     if debug:
-        print(best_component_subject)
+        print(component_subject_temp) #Switch me to component_subject_temp for the subject template stuff
         print(ignore_list)
 
     return component_subject_2, ignore_list
