@@ -167,6 +167,9 @@ def output(compiled_data, chromosome):
 
     #chromome is the final output thing
 
+    #for x in chromosome:
+     #   print(x)
+
     
     
 
@@ -210,7 +213,7 @@ def constrained_randomizer(compiled_data, restricted):
                 
                 if i == key:
                     temp.append(value)
-        temp = tuple(temp)
+
         converted_level_subjects.append(temp)
         
     temp = []
@@ -402,13 +405,14 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 
 # fancy way of making a list with 12 zeros ( [0,0,0,0,0,0,0,0...])
 subject_frequency = defaultdict(lambda: [0] * 12)  
+test = True
 
 # this function turned out more complex than expected
 def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, converted_level_subjects, level, schedule_restricted):   
     iterations = 100
 
     global subject_frequency
-    component_subject_2 = None
+    component_subject = None
     best_score = float('inf')
 
     for _ in range(iterations):
@@ -456,12 +460,12 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
         # Keep the schedule with the best (lowest) score
         if score < best_score:
             best_score = score
-            component_subject_2 = component_subject
+
 
     # Update the frequency tracker with the best schedule
     for i in range(6):
-        subject_frequency[component_subject_2[0][i]][i] += 1
-        subject_frequency[component_subject_2[1][i]][i + 6] += 1
+        subject_frequency[component_subject[0][i]][i] += 1
+        subject_frequency[component_subject[1][i]][i + 6] += 1
 
     # Create ignore_list
     ignore_list = []
@@ -470,7 +474,7 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
     for x in range(2):
         ignore_list.append([])
         for y in range(6):
-            if component_subject_2[x][y] == "00":
+            if component_subject[x][y] == "00":
                 ignore_list[x].append(y)
         ignore_list[x] = tuple(ignore_list[x])
 
@@ -478,47 +482,80 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
     temp = []
 
     #FFUUUUUUUUUUUUUCKKKKKKK  FIX THI SHIT!!!!!!!!!!!!!!    
+
+
+    # goes through the 2 days of class
+    temp2 = []
     for x in range(2):
 
-        counter = -1
+        # goes through the 6 time slots for subjects (total of 12 [2*6])
         for y in range(6):
 
-            counter = counter + 1
-            subject = component_subject_2[x][y]
+
+            subject = component_subject[x][y]
+
+
             if subject == "00":
                 temp.append("00")
-                break
+              
 
             else:
-
-
-                while 
+                
                 condition = False
-                
-                for i in converted_level_subjects[level]:
+                fuck_you_thats_why = False
+                counter = 0
+                while not condition:
+                    
+                    counter = counter + 1
+                    brake = False
 
-                    print(i)
+                    
 
-                    for a in schedule_counter[x][counter]:
+                    # REALLY INTERESTING, IF FOR LOOP ITERATES A CONSTANT LIST, GREEDY ALGORITHM WILL SUFFER DURING THE LATER ITERATIONS, DUE TO THE BEST SOLUTIONS BEING TAKEN FIRST
+                    random.shuffle(converted_level_subjects[level])
+                    for i in converted_level_subjects[level]:
 
-                        print(a)
-                        
+                        for j in range(len(schedule_counter[x][y])):
+                            
+                            if schedule_counter[x][y][j][0] == i:
+                                subject_address = j
+                                break
 
-                        if i == a[0]:
+                        if i not in temp2:
 
-                            condition = True
-                            break
+                            for a in schedule_counter[x][y]:
 
-                    if condition:
-                        break
-                
 
-                if i == converted_level_subjects[level][-1]:
-                    schedule_restricted[level][x][counter] = schedule_restricted[level][x][counter] + 1 
+                            
+                                # this is the goal 
+                                if i == a[0] and a[1] < schedule_restricted[level][x][y]:
 
+                                    temp.append(str(i).zfill(2))
+
+                                    schedule_counter[x][y][subject_address][1] = schedule_counter[x][y][subject_address][1] + 1
+
+                                    temp2.append(i)
+                                    condition = True
+                                    brake = True
+                                    break
+
+                            if brake:
+                                break
+                            
+                    #FIND WAY TO INCREMENT 1 IN CURRENT POINTER POSITION IF THERE ARE NO MORE POSSIBLE BLAH BLAH BLAH
+                    if counter == 2000:
+                        schedule_restricted[level][x][y] = schedule_restricted[level][x][y] + 1 
+                        pass
+                      
+    temp = tuple(temp)
+    component_subject = temp
     print(component_subject)
-    print(temp)
 
+    global test
+    if test:
+        if level == 1:
+            print()
+            test = False
 
     debug = False
     #print(num_subjects)
@@ -527,7 +564,7 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
         print(component_subject_temp) #Switch me to component_subject_temp for the subject template stuff
         print(ignore_list)
 
-    return component_subject_2, ignore_list, schedule_restricted
+    return component_subject, ignore_list, schedule_restricted
 
         
 def convert():
