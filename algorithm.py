@@ -482,41 +482,42 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
 
         counter = -1
         for y in range(6):
+
             counter = counter + 1
             subject = component_subject_2[x][y]
             if subject == "00":
                 temp.append("00")
+                break
+
             else:
+
+
+                while 
+                condition = False
+                
                 for i in converted_level_subjects[level]:
+
+                    print(i)
 
                     for a in schedule_counter[x][counter]:
 
-                        if i == a[0]:
-
-                            if a[1] < schedule_restricted[level][x][counter]:
-                                i = str(i).zfill(2)
-                                temp.append(i)
-
-                            
-    
+                        print(a)
                         
 
-    print(converted_level_subjects)
-    print(temp)
+                        if i == a[0]:
 
+                            condition = True
+                            break
 
-        #pool the mew subjects from here vvvvvvv
-    #print(converted_level_subjects[level])
-
-    print("new")
-    pass
-    
+                    if condition:
+                        break
                 
 
+                if i == converted_level_subjects[level][-1]:
+                    schedule_restricted[level][x][counter] = schedule_restricted[level][x][counter] + 1 
 
-            
-        
-
+    print(component_subject)
+    print(temp)
 
 
     debug = False
