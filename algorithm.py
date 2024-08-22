@@ -19,8 +19,8 @@ def info():
 
 
     section =       (
-                        18,
-                        18
+                        15,
+                        15
                     )
     
     all_info.append(section)
@@ -42,9 +42,9 @@ def info():
                     ),
 
                     (
-                        #"english",
-                        #"chemistry",
-                        #"cpar",
+                        "english",
+                        "chemistry",
+                        "cpar",
                         "filipino",
                         "biology",
                         "inqvest",
@@ -150,7 +150,7 @@ def info():
     
 
 
-def output(compiled_data, chromosome):
+def output(compiled_data, chromosome, schedule_restricted):
 
     compiled_data=convert()
 
@@ -167,8 +167,6 @@ def output(compiled_data, chromosome):
 
     #chromome is the final output thing
 
-    #for x in chromosome:
-     #   print(x)
 
     
     
@@ -228,7 +226,10 @@ def constrained_randomizer(compiled_data, restricted):
             schedule_counter[x].append([])
             for subject in all_converted_subjects:
                 
-                schedule_counter[x][y].append([subject, 0])
+
+                if not [subject, 0] in schedule_counter[x][y]:
+
+                    schedule_counter[x][y].append([subject, 0])
 
     # makes the thing with the thing (READ THE THING BELOW STUPID)
     temp=[]
@@ -285,7 +286,7 @@ def constrained_randomizer(compiled_data, restricted):
         for x in chromosome:
             print(x)
 
-    return chromosome
+    return chromosome, schedule_restricted
            
 def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list):
 
@@ -497,6 +498,8 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
 
             if subject == "00":
                 temp.append("00")
+                print(temp)
+
               
 
             else:
@@ -531,6 +534,7 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
                                 if i == a[0] and a[1] < schedule_restricted[level][x][y]:
 
                                     temp.append(str(i).zfill(2))
+                                    print(temp)
 
                                     schedule_counter[x][y][subject_address][1] = schedule_counter[x][y][subject_address][1] + 1
 
@@ -542,14 +546,16 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
                             if brake:
                                 break
                             
-                    #FIND WAY TO INCREMENT 1 IN CURRENT POINTER POSITION IF THERE ARE NO MORE POSSIBLE BLAH BLAH BLAH
-                    if counter == 2000:
+                    # Weird bug that makes schedule_restricted inconsistent, more shows up at the last
+
+                    if counter  > 100:
                         schedule_restricted[level][x][y] = schedule_restricted[level][x][y] + 1 
                         pass
-                      
+                    pass
     temp = tuple(temp)
     component_subject = temp
     print(component_subject)
+
 
     global test
     if test:
@@ -563,6 +569,8 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
     if debug:
         print(component_subject_temp) #Switch me to component_subject_temp for the subject template stuff
         print(ignore_list)
+
+    
 
     return component_subject, ignore_list, schedule_restricted
 
@@ -923,9 +931,9 @@ def start():
                     my_list = []
                     restricted[day][restricted_list_num][a][1].append(my_list)   #appends the number of rooms per floor in each building block
 
-    chromosome = constrained_randomizer(compiled_data, restricted)
+    chromosome, schedule_restricted = constrained_randomizer(compiled_data, restricted)
 
-    output(compiled_data, chromosome)
+    output(compiled_data, chromosome, schedule_restricted)
 
     
     
