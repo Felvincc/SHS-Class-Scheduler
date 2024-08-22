@@ -525,7 +525,7 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
 
                             for a in schedule_counter[x][y]:
 
-
+                                pass
                             
                                 # this is the goal 
                                 if i == a[0] and a[1] < schedule_restricted[level][x][y]:
