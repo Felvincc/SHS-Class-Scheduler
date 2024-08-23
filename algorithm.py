@@ -165,7 +165,11 @@ def output(compiled_data, chromosome, schedule_restricted):
     parent_instructors = compiled_data[7]           # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-    #chromome is the final output thing
+    for x in chromosome:
+
+        print(x)
+
+    pass
 
 
     
@@ -484,28 +488,21 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
 
     #FFUUUUUUUUUUUUUCKKKKKKK  FIX THI SHIT!!!!!!!!!!!!!!    
 
-
-    # goes through the 2 days of class
     temp2 = []
     for x in range(2):
 
+
         # goes through the 6 time slots for subjects (total of 12 [2*6])
         for y in range(6):
-
-
             subject = component_subject[x][y]
-
-
+            random.shuffle(converted_level_subjects[level])
             if subject == "00":
                 temp.append("00")
-                print(temp)
-
-              
-
+                #print(temp)
+    
             else:
                 
                 condition = False
-                fuck_you_thats_why = False
                 counter = 0
                 while not condition:
                     
@@ -513,7 +510,6 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
                     brake = False
 
                     
-
                     # REALLY INTERESTING, IF FOR LOOP ITERATES A CONSTANT LIST, GREEDY ALGORITHM WILL SUFFER DURING THE LATER ITERATIONS, DUE TO THE BEST SOLUTIONS BEING TAKEN FIRST
                     random.shuffle(converted_level_subjects[level])
                     for i in converted_level_subjects[level]:
@@ -534,7 +530,8 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
                                 if i == a[0] and a[1] < schedule_restricted[level][x][y]:
 
                                     temp.append(str(i).zfill(2))
-                                    print(temp)
+                                    #print(temp)
+           
 
                                     schedule_counter[x][y][subject_address][1] = schedule_counter[x][y][subject_address][1] + 1
 
@@ -548,10 +545,14 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
                             
                     # Weird bug that makes schedule_restricted inconsistent, more shows up at the last
 
-                    if counter  > 100:
-                        schedule_restricted[level][x][y] = schedule_restricted[level][x][y] + 1 
-                        pass
-                    pass
+                    if counter  > 5000:
+                        print()
+                        print(f"incrementing to index [{x}][{y}] ({schedule_restricted[level][x][y]})")
+                        schedule_restricted[level][x][y] = schedule_restricted[level][x][y] + 1                         
+                        counter = 0
+                        
+
+
     temp = tuple(temp)
     component_subject = temp
     print(component_subject)
@@ -569,8 +570,6 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
     if debug:
         print(component_subject_temp) #Switch me to component_subject_temp for the subject template stuff
         print(ignore_list)
-
-    
 
     return component_subject, ignore_list, schedule_restricted
 
