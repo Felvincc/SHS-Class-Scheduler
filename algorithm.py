@@ -150,7 +150,7 @@ def info():
     
 
 
-def output(compiled_data, chromosome, schedule_restricted):
+def output(compiled_data, chromosome, schedule_counter):
 
     compiled_data=convert()
 
@@ -165,9 +165,9 @@ def output(compiled_data, chromosome, schedule_restricted):
     parent_instructors = compiled_data[7]           # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-    for x in chromosome:
-
-        print(x)
+    for x in range(2):
+        for y in range(6):
+            print(schedule_counter[x][y])
 
     pass
 
@@ -484,77 +484,91 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
         ignore_list[x] = tuple(ignore_list[x])
 
     ignore_list = tuple(ignore_list)
-    temp = []
+    
+    '''
+        Very interesting greedy algorithm stuff: So, because of the nature of greedy algorithms
+        later iterations will most likely suffer from the consequences of the first few iterations.
+        i.e. the first iterations take the best solutions, causing the last iterations to be forced
+        to use the worse solutions.
 
-    #FFUUUUUUUUUUUUUCKKKKKKK  FIX THI SHIT!!!!!!!!!!!!!!    
+        So i did my research and found that, 1. there are many ways to solve and prevent those issues,
+        2. those ways to solve and prevent that issue are complicated, 3. I am lazy. So instead of
+        using buffers, look aheads, post-processing optimization, dynamic algorithms, or even genetic
+        algorithms. I just shuffled the original reference list, so the first iterations being favoured
+        will (not) always be randomized helping even out the distribution.
 
-    temp2 = []
+        Although this way is quite primitive, it works and fits quite well with the intended goal.
+        This way of fixing this issue is not as graceful as the other methods, but the program does
+        not call for or need these other ways.
+
+        tl;dr: im lazy, and because im lazy, i found a nice and simple solution
+
+        8/25/2025 1:36 AM
+
+        i spoke too soon, this did not solve the issue completely FUUUUUUUCCCCCCCCCCCCCCCCCKKKKKKK
+
+        8/25/2025 1:42 AM
+    '''
+
+
+    #FFUUUUUUUUUUUUUCKKKKKKK  FIX THI SHIT!!!!!!!!!!!!!! 
+    # update: WE FIXXXEDD THIIISH SHIIIIIIITTT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+
+    # initializes the index address list, shuffles the converted sub levels to minimize downsides of greedy algorithm
+    index_address = []
+    random.shuffle(converted_level_subjects[level])
+    for subject_id in converted_level_subjects[level]:
+
+        for subject in schedule_counter[0][0]:
+
+            if subject[0] == subject_id:
+
+                temp = schedule_counter[0][0].index(subject)
+                index_address.append(temp)
+                temp = []
+                break
+
+    output_temp = []
+    restricted_address = []
+
+    # these are the stuff the appends the subjects to the output list
     for x in range(2):
 
 
         # goes through the 6 time slots for subjects (total of 12 [2*6])
         for y in range(6):
             subject = component_subject[x][y]
-            random.shuffle(converted_level_subjects[level])
             if subject == "00":
-                temp.append("00")
+                output_temp.append("00")
                 #print(temp)
     
             else:
-                
-                condition = False
-                counter = 0
-                while not condition:
-                    
-                    counter = counter + 1
-                    brake = False
 
-                    
-                    # REALLY INTERESTING, IF FOR LOOP ITERATES A CONSTANT LIST, GREEDY ALGORITHM WILL SUFFER DURING THE LATER ITERATIONS, DUE TO THE BEST SOLUTIONS BEING TAKEN FIRST
-                    random.shuffle(converted_level_subjects[level])
-                    for i in converted_level_subjects[level]:
+                # gets the amount of times a the levels subjects are repeated
+                instances = []
+                for address in index_address:
+                    instances.append(schedule_counter[x][y][address][1])
 
-                        for j in range(len(schedule_counter[x][y])):
-                            
-                            if schedule_counter[x][y][j][0] == i:
-                                subject_address = j
-                                break
+                # saves the best (smallest) amount of times a subject is repeated and its address with constraints
+                best_instance = 1000
+                for instance_address in range(len(instances)):
 
-                        if i not in temp2:
+                    instance = instances[instance_address]
+                    if instance_address not in restricted_address:
 
-                            for a in schedule_counter[x][y]:
+                        if instance < best_instance:
+                            best_instance = instance
+                            best_instance_address = instance_address
 
-                                pass
-                            
-                                # this is the goal 
-                                if i == a[0] and a[1] < schedule_restricted[level][x][y]:
-
-                                    temp.append(str(i).zfill(2))
-                                    #print(temp)
-           
-
-                                    schedule_counter[x][y][subject_address][1] = schedule_counter[x][y][subject_address][1] + 1
-
-                                    temp2.append(i)
-                                    condition = True
-                                    brake = True
-                                    break
-
-                            if brake:
-                                break
-                            
-                    # Weird bug that makes schedule_restricted inconsistent, more shows up at the last
-
-                    if counter  > 5000:
-                        print()
-                        print(f"incrementing to index [{x}][{y}] ({schedule_restricted[level][x][y]})")
-                        schedule_restricted[level][x][y] = schedule_restricted[level][x][y] + 1                         
-                        counter = 0
+                # adds to the constraints and appends the value blah blah blah
+                restricted_address.append(best_instance_address)
+                output_temp.append(str(converted_level_subjects[level][best_instance_address]).zfill(2))
+                schedule_counter[x][y][index_address[best_instance_address]][1] = schedule_counter[x][y][index_address[best_instance_address]][1] + 1
+                pass
                         
 
-
-    temp = tuple(temp)
-    component_subject = temp
+    output_temp = tuple(output_temp)
+    component_subject = output_temp
     print(component_subject)
 
 
@@ -571,7 +585,7 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
         print(component_subject_temp) #Switch me to component_subject_temp for the subject template stuff
         print(ignore_list)
 
-    return component_subject, ignore_list, schedule_restricted
+    return component_subject, ignore_list, schedule_counter
 
         
 def convert():
@@ -930,9 +944,9 @@ def start():
                     my_list = []
                     restricted[day][restricted_list_num][a][1].append(my_list)   #appends the number of rooms per floor in each building block
 
-    chromosome, schedule_restricted = constrained_randomizer(compiled_data, restricted)
+    chromosome, schedule_counter = constrained_randomizer(compiled_data, restricted)
 
-    output(compiled_data, chromosome, schedule_restricted)
+    output(compiled_data, chromosome, schedule_counter)
 
     
     
