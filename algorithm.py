@@ -11,7 +11,9 @@ def info():
     levels =        (                                       #CHANGE ME BACK
 
                         "g11_steam",
-                        "g12_steam"
+                        "g12_steam",
+                        "g11_abm"
+                  
 
                     )
     
@@ -20,7 +22,9 @@ def info():
 
     section =       (
                         15,
+                        15,
                         15
+                    
                     )
     
     all_info.append(section)
@@ -35,7 +39,7 @@ def info():
                         "esci",
                         "emptech",
                         "oralcom",
-                        "peh/cffs",
+                        "peh/cffs steam",
 
 
 
@@ -49,9 +53,26 @@ def info():
                         "biology",
                         "inqvest",
                         "physics",
-                        "peh/cffs",
+                        "peh/cffs 2 steam",
+
+                    ),
+
+                    (
+
+                        "RWS",
+                        "business_math",
+                        "entrep",
+                        "ucsp",
+                        "gen_math",
+                        "pe/cffs 1 abm",
+                        "cpar",
+                        "medil",
+                        "org and manage"
+                        "esci abm"
+
 
                     )
+
                 )
     
     all_info.append(subjects)
@@ -59,7 +80,7 @@ def info():
     buildings =     (
 
                         "suhs",
-                        #"guy_hall",           
+                         
 
                     )
     
@@ -68,7 +89,7 @@ def info():
     floors =        (                  # COUNT FROM one)         
         
                         3,
-                        #3
+                        
         
                     )
     
@@ -77,7 +98,7 @@ def info():
     rooms =         (           #count from 1
         
                         12,
-                        #12
+                        
         
                     )
     
@@ -219,7 +240,10 @@ def constrained_randomizer(compiled_data, restricted):
         converted_level_subjects.append(temp)
         
     temp = []
-    all_converted_subjects = converted_level_subjects[0]+converted_level_subjects[1]
+    all_converted_subjects = []
+
+    for x in range((len(converted_level_subjects))):
+        all_converted_subjects = all_converted_subjects + converted_level_subjects[x]
 
     # This loop makes the schedule counter, which tracks the subjects used per schedule, this is used to ensure that there will be as little overlapping in subject schedules
     for x in range(2):
@@ -230,10 +254,11 @@ def constrained_randomizer(compiled_data, restricted):
             schedule_counter[x].append([])
             for subject in all_converted_subjects:
                 
-
                 if not [subject, 0] in schedule_counter[x][y]:
 
                     schedule_counter[x][y].append([subject, 0])
+
+    pass
 
     # makes the thing with the thing (READ THE THING BELOW STUPID)
     temp=[]
@@ -534,13 +559,11 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
     # these are the stuff the appends the subjects to the output list
     for x in range(2):
 
-
         # goes through the 6 time slots for subjects (total of 12 [2*6])
         for y in range(6):
             subject = component_subject[x][y]
             if subject == "00":
                 output_temp.append("00")
-                #print(temp)
     
             else:
 
@@ -559,27 +582,18 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
                         if instance < best_instance:
                             best_instance = instance
                             best_instance_address = instance_address
-
+                            
                 # adds to the constraints and appends the value blah blah blah
                 restricted_address.append(best_instance_address)
                 output_temp.append(str(converted_level_subjects[level][best_instance_address]).zfill(2))
                 schedule_counter[x][y][index_address[best_instance_address]][1] = schedule_counter[x][y][index_address[best_instance_address]][1] + 1
                 pass
                         
-
     output_temp = tuple(output_temp)
     component_subject = output_temp
     print(component_subject)
 
-
-    global test
-    if test:
-        if level == 1:
-            print()
-            test = False
-
     debug = False
-    #print(num_subjects)
 
     if debug:
         print(component_subject_temp) #Switch me to component_subject_temp for the subject template stuff
