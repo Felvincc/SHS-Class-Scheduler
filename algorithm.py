@@ -8,13 +8,13 @@ def info():
 
     all_info=[]
 
-    levels =        (                                       #CHANGE ME BACK
+    levels =        (                                
 
-                        "g11_steam",
-                        "g12_steam",
-                        "g11_abm"
+                        "G11 STEAM",
+                        "G12 STEAM",
+                        "G11 ABM",
+                        "G12 ABM"
                   
-
                     )
     
     all_info.append(levels)
@@ -23,54 +23,59 @@ def info():
     section =       (
                         15,
                         15,
+                        15,
                         15
                     
                     )
     
     all_info.append(section)
 
-    subjects = (                                    # Last to subjects should be the interchangeable subjects (pe, cffs)
+    subjects = (                                 
 
                     (
-                        "precalc",
-                        "stats",
-                        "ucsp",
-                        "iphp",
-                        "esci",
-                        "emptech",
-                        "oralcom",
-                        "peh/cffs steam",
-
-
-
+                        "Pre-calculus S11",
+                        "Statistics S11",
+                        "UCSP S11",
+                        "IPHP S11",
+                        "Earth Science S11",
+                        "Emptech S11",
+                        "Oral Com S11",
+                        "PE/CFFS S11"
                     ),
 
                     (
-                        "english",
-                        "chemistry",
-                        "cpar",
-                        "filipino",
-                        "biology",
-                        "inqvest",
-                        "physics",
-                        "peh/cffs 2 steam",
-
+                        "English S12",
+                        "Chemistry S12",
+                        "CPAR S12",
+                        "Filipino S12",
+                        "Biology S12",
+                        "InqVest S12",
+                        "Physics S12",
+                        "PEH/CFFS S12",
                     ),
 
                     (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11"
+                        "Earth Science A11"
+                    ),
 
-                        "RWS",
-                        "business_math",
-                        "entrep",
-                        "ucsp",
-                        "gen_math",
-                        "pe/cffs 1 abm",
-                        "cpar",
-                        "medil",
-                        "org and manage"
-                        "esci abm"
-
-
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
                     )
 
                 )
@@ -79,7 +84,9 @@ def info():
 
     buildings =     (
 
-                        "suhs",
+                        "SUHS",
+                        "Guy Hall"
+                        
                          
 
                     )
@@ -89,6 +96,7 @@ def info():
     floors =        (                  # COUNT FROM one)         
         
                         3,
+                        3
                         
         
                     )
@@ -98,6 +106,7 @@ def info():
     rooms =         (           #count from 1
         
                         12,
+                        12
                         
         
                     )
@@ -106,15 +115,14 @@ def info():
 
     #                   Make exceptions list for rooms that are not able to be used (ex. faculty rooms)
 
-    instructors =   (
+    restricted_address =   (
 
-                        "jimmy",
-                        "bob",
-                        "david"
+                        (0, 1, 6),
+                        (1, 1, 6),
 
                     )
     
-    all_info.append(instructors)
+    all_info.append(restricted_address)
     
     instructors_field = (
 
@@ -183,24 +191,14 @@ def output(compiled_data, chromosome, schedule_counter):
     parent_buildings = compiled_data[4]             # raw, dict, conv
     parent_floors = compiled_data[5]                # raw, conv
     parent_rooms = compiled_data[6]                 # raw, conv
-    parent_instructors = compiled_data[7]           # raw, dict, conv
+    parent_restricted_address = compiled_data[7]    # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-    for x in range(2):
-        for y in range(6):
-            print(schedule_counter[x][y])
-
-    pass
-
-
-    
-    
 
  
 def constrained_randomizer(compiled_data, restricted):
 
     compiled_data=convert()
-    #print(compiled_data)
 
     # Unpacks
     levels = compiled_data[0]                       # Single list/tuple
@@ -210,21 +208,21 @@ def constrained_randomizer(compiled_data, restricted):
     parent_buildings = compiled_data[4]             # raw, dict, conv
     parent_floors = compiled_data[5]                # raw, conv
     parent_rooms = compiled_data[6]                 # raw, conv
-    parent_instructors = compiled_data[7]           # raw, dict, conv
+    parent_restricted_address = compiled_data[7]    # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
     temp = []
     schedule_counter = []
     
     # combines all the subjects into a set (set to prevent duplicates)
-    single_subjects = set()
+    single_subjects = []
     for subject in parent_subjects[0]:
         for x in subject:
-            single_subjects.add(x)
+            single_subjects.append(x)
+    single_subjects = tuple(single_subjects)
 
     # dictionary comprehension for making a dictionary of all the subjects (with no duplicates) with a id number
     subject_id_dict = {element: idx + 1 for idx, element in enumerate(single_subjects)}
-
 
     # Creates lists for each level with their respective subject ids
     converted_level_subjects =[]
@@ -242,6 +240,7 @@ def constrained_randomizer(compiled_data, restricted):
     temp = []
     all_converted_subjects = []
 
+    # combines all the subjects into a single list
     for x in range((len(converted_level_subjects))):
         all_converted_subjects = all_converted_subjects + converted_level_subjects[x]
 
@@ -258,9 +257,9 @@ def constrained_randomizer(compiled_data, restricted):
 
                     schedule_counter[x][y].append([subject, 0])
 
-    pass
-
+    
     # makes the thing with the thing (READ THE THING BELOW STUPID)
+    # creates the restricted list, which is used to prevent the same room from being used in the same time slot
     temp=[]
     for level in range(2):
 
@@ -274,74 +273,83 @@ def constrained_randomizer(compiled_data, restricted):
     schedule_restricted = temp
     temp = []
 
+    # appends the PRE restricted values to the restricted list
+    pre_restricted_address = parent_restricted_address[0]
+    for i in range(len(pre_restricted_address)):
 
+        for x in range(2):
 
-    # Main constrained randomizer =============================
+            for y in range(6):  
+
+                elem = pre_restricted_address[i]
+                restricted[x][y][elem[0]][1][elem[1]].append(elem[2])
+
+    # Main constrained randomizer ===============================================================================================
 
     chromosome = []
     for level in range(len(levels)):
 
         chromosome_temp = []
 
-        # creates the randomized subject schedule       (I MOVED THIS FROM THE LOOP FROM BELOW, IF SOMETHING BREAKS, PUT ME BACk!!!!!!!!!!(or dont))
+        # creates the randomized subject schedule       
         num_subjects = len(parent_subjects[0][level])+1
 
         for section in range(sections[level]):
 
+            # appends the level and section to the chromosome
             chromosome_temp.append(level)
             chromosome_temp.append(section)
 
+            # fetches the randomized subjects
             component_subject, ignore_list, schedule_restricted = rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, converted_level_subjects, level, schedule_restricted)
             chromosome_temp.append(tuple(component_subject))
 
             # gets the randomized building, floors, and rooms values
             num_buildings = len(parent_buildings[0])-1
-        
-            address_module, error=buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list )
+
+
+            # fetches the address module
+            address_module, error = buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list )
             chromosome_temp.append(address_module)
 
+            # probably a better way of doing this, but i dont know how!!!!!!!!!!!!!!!!!!!!!!!!
             if error:
 
                 print("error_01")
                 exit()
 
+            # appends the current chromosome to the chromosome list
             chromosome_temp=[]
             chromosome.append(chromosome_temp)
         
-    debug = False
-
-    if debug:
-
-        for x in chromosome:
-            print(x)
-
     return chromosome, schedule_restricted
            
 def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list):
 
     address_module = []
-
-    # fix restricted stuff
-    # restricted format:  [ [[floor], [room], building 1], [[floor], [room], building 2] ]
+ 
+    # restricted list format: [ [ [floor], [room], building 1], [ [floor], [room], building 2] ]
     # BE SURE YOU APPEND THE RESTRICTED BUILDING AT THE LAST, NEVER AT THE FIRST
 
-    for day in range(2):
-        for x in range(6):
+    # these for loops represent the 2 days, and the 6 time slots per day
+    for x in range(2):
+        for y in range(6):
 
+            # checks if the value is in the ignore list, if it is, it will overwrite the value
             overwrite = False
-            if x in ignore_list[day]:
+            if y in ignore_list[x]:
 
                 error = False
                 overwrite = True
 
             in_list = True
-
             error_01 = 0
 
+            # chooses a building that is available, if none are available, it will return an error
             while in_list:
             
                 chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
-                in_list = chosen_building in restricted[day][x]
+                in_list = chosen_building in restricted[x][y]
                 error_01 = error_01 + 1
 
                 if error_01 == 500000:
@@ -349,27 +357,28 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
                     error = True
                     return "000000", error
                     
-
             in_list = True
             error_01 = 0
 
+            # chooses a floor that is available, if none are available, it will return an error
             while in_list:
 
                 chosen_floor = random.randint(1, len(parent_floors[1][chosen_building]))
-                in_list = chosen_floor in restricted[day][x][chosen_building][0]
+                in_list = chosen_floor in restricted[x][y][chosen_building][0]
                 error_01 = error_01 + 1
 
                 if error_01 == 500000:
                     error = True
                     return "000000", error
 
-        
             in_list = True
             error_01 = 0
+
+            # chooses a room that is available, if none are available, it will return an error
             while in_list:
 
                 chosen_room = random.randint(1,len(parent_rooms[1][chosen_building]))
-                in_list = chosen_room in restricted[day][x][chosen_building][1][chosen_floor-1]
+                in_list = chosen_room in restricted[x][y][chosen_building][1][chosen_floor-1]
                 error_01 = error_01 + 1
 
                 if error_01 == 500000:
@@ -381,14 +390,14 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
             # appends the the values to restricted to preven them from showing up again
             if not overwrite:
 
-                restricted[day][x][chosen_building][1][chosen_floor-1].append(chosen_room)
-                if len(restricted[day][x][chosen_building][1][chosen_floor-1]) == len(parent_rooms[1][chosen_building]):
+                restricted[x][y][chosen_building][1][chosen_floor-1].append(chosen_room)
+                if len(restricted[x][y][chosen_building][1][chosen_floor-1]) == len(parent_rooms[1][chosen_building]):
 
-                    restricted[day][x][chosen_building][0].append(chosen_floor)
+                    restricted[x][y][chosen_building][0].append(chosen_floor)
 
-                if len(restricted[day][x][chosen_building][0]) == len(parent_floors[1][chosen_building]):
+                if len(restricted[x][y][chosen_building][0]) == len(parent_floors[1][chosen_building]):
 
-                    restricted[day][x][chosen_building].append(chosen_building)
+                    restricted[x][y][chosen_building].append(chosen_building)
 
         
             # pads all the values by 2 (1 = 01, 12 = 12, 6 = 06)
@@ -405,7 +414,7 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
             address_module.append(address_module_temp)
 
             error = False
-            debug = False
+            debug = True
            
             # self explanatory
             if debug:
@@ -418,17 +427,16 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
     temp = []
     temp2 = []
 
-    # halfs the list and turns it into a tuple
-    for x in range(len(address_module)):
-        temp.append(address_module[x])
+    # splits the list in half, and turns it into a tuple
+    for y in range(len(address_module)):
+        temp.append(address_module[y])
 
-        if x == 5 or x == 11:
+        if y == 5 or y == 11:
             temp2.append(tuple(temp))
             
             temp = []
 
     temp2 = tuple(temp2)
-
     address_module = temp2
 
     return address_module, error
@@ -924,7 +932,7 @@ def start():
     parent_buildings = compiled_data[4]             # raw, dict, conv
     parent_floors = compiled_data[5]                # raw, conv
     parent_rooms = compiled_data[6]                 # raw, conv
-    parent_instructors = compiled_data[7]           # raw, dict, conv
+    parent_restricted_address = compiled_data[7]           # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
     # restricted area maker thing, format
@@ -962,9 +970,7 @@ def start():
 
     output(compiled_data, chromosome, schedule_counter)
 
-    
-    
-
+ 
 start()
 
     
