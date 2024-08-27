@@ -3,6 +3,11 @@ import random
 import os
 from collections import defaultdict
 
+# fancy way of making a list with 12 zeros ( [0,0,0,0,0,0,0,0...])
+subject_frequency = defaultdict(lambda: [0] * 12)  
+test = True
+
+
 
 def info():
 
@@ -13,7 +18,8 @@ def info():
                         "G11 STEAM",
                         "G12 STEAM",
                         "G11 ABM",
-                        "G12 ABM"
+                        "G12 ABM",
+                        
                   
                     )
     
@@ -24,7 +30,8 @@ def info():
                         15,
                         15,
                         15,
-                        15
+                        15,
+                        
                     
                     )
     
@@ -76,7 +83,9 @@ def info():
                         "Profesional English A12",
                         "FABM A12",
                         "PE/CFFS A12"
-                    )
+                    ),
+
+     
 
                 )
     
@@ -117,8 +126,8 @@ def info():
 
     restricted_address =   (
 
-                        (0, 1, 6),
-                        (1, 1, 6),
+                        (0, 1, [1,2,3]),
+                        (1, 1, [6]),
 
                     )
     
@@ -170,8 +179,7 @@ def info():
     
     all_info.append(instructors_avail_time)
 
-
-
+   
     #all_info = (levels, section, subjects, buildings, floors, rooms, instructors, instructors_field, instructors_available_time)
 
     return all_info
@@ -190,6 +198,9 @@ def output(compiled_data, chromosome, schedule_counter):
     parent_rooms = compiled_data[6]                 # raw, conv
     parent_restricted_address = compiled_data[7]    # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
+
+    for x in chromosome:
+        print(x)
 
 def constrained_randomizer(compiled_data, restricted):
 
@@ -268,7 +279,7 @@ def constrained_randomizer(compiled_data, restricted):
     schedule_restricted = temp
     temp = []
 
-    # appends the PRE restricted values to the restricted list
+    # appends the PRE-restricted values to the restricted list
     pre_restricted_address = parent_restricted_address[0]
     for i in range(len(pre_restricted_address)):
 
@@ -277,7 +288,7 @@ def constrained_randomizer(compiled_data, restricted):
             for y in range(6):  
 
                 elem = pre_restricted_address[i]
-                restricted[x][y][elem[0]][1][elem[1]].append(elem[2])
+                restricted[x][y][elem[0]][1][elem[1]].extend(elem[2])
 
     # Main constrained randomizer ===============================================================================================
 
@@ -301,7 +312,6 @@ def constrained_randomizer(compiled_data, restricted):
 
             # gets the randomized building, floors, and rooms values
             num_buildings = len(parent_buildings[0])-1
-
 
             # fetches the address module
             address_module, error = buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list )
@@ -409,7 +419,7 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
             address_module.append(address_module_temp)
 
             error = False
-            debug = True
+            debug = False
            
             # self explanatory
             if debug:
@@ -436,11 +446,6 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 
     return address_module, error
 
-# fancy way of making a list with 12 zeros ( [0,0,0,0,0,0,0,0...])
-subject_frequency = defaultdict(lambda: [0] * 12)  
-test = True
-
-# this function turned out more complex than expected
 def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, converted_level_subjects, level, schedule_restricted):   
     iterations = 100
 
@@ -594,7 +599,6 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
                         
     output_temp = tuple(output_temp)
     component_subject = output_temp
-    print(component_subject)
 
     debug = False
 
@@ -603,8 +607,7 @@ def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, conv
         print(ignore_list)
 
     return component_subject, ignore_list, schedule_counter
-
-        
+     
 def convert():
 
     temp = []
@@ -626,8 +629,6 @@ def convert():
 
     }
 
-    all_info = info()
-
     # No need to convert these data because it will only be used for for loop values, or conditions, as supposed to genes in the chromosome
 
     levels = all_info[label["levels"]]
@@ -646,11 +647,9 @@ def convert():
     #                         raw = straight from data set, no prefix = default data, converted data, dict = conversion dictionary for raw data and converted data,                      
                                
     #Creates raw subjects data                                
-    
     raw_subjects = all_info[label["subjects"]]
 
     # Creates conversion dictionary for subjects
-
     dict_subjects=[]    
 
     for raw_subjects_elem in raw_subjects:
@@ -676,27 +675,20 @@ def convert():
                 temp = []
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_subjects))
     return_values_temp.append(dict_subjects)
     return_values_temp.append(tuple(subjects))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
-                
-
-
     # Creates raw buildings data
-
     raw_buildings = all_info[label["buildings"]]
 
     # Creates dictionary buildings data
-
     dict_buildings = {index: element for index, element in enumerate(all_info[label["buildings"]])}
 
 
     # Creates default buildings data
-
     buildings = []
 
     for buildings_elem in range(len(raw_buildings)):
@@ -704,7 +696,6 @@ def convert():
         buildings.append(buildings_elem)
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_buildings))
     return_values_temp.append(dict_buildings)
     return_values_temp.append(tuple(buildings))
@@ -715,11 +706,9 @@ def convert():
 
 
     # Creates raw floors data
-
     raw_floors = all_info[label["floors"]]   
 
     # Creates default floors data
-
     floors = []
 
     floors_temp=[]
@@ -740,20 +729,17 @@ def convert():
 
     
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_floors))
     return_values_temp.append(tuple(floors))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
-    #print(floors)
+
 
     # Creates raw rooms data
-      
     raw_rooms = all_info[label["rooms"]]
 
     # Creates default rooms data
-
     rooms_temp = []
 
     rooms = []
@@ -773,7 +759,6 @@ def convert():
                 rooms_temp = []
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_rooms))
     return_values_temp.append(tuple(rooms))
     return_values.append(tuple(return_values_temp))
@@ -782,15 +767,12 @@ def convert():
 
                 
     # Creates raw instructors
-
     raw_instructors = all_info[label["instructors"]]
 
     # Creates dictionary for instructors
-
     dict_instructors = {index: element for index, element in enumerate(all_info[label["instructors"]])}
 
     # Creates default instructors data
-
     instructors = []
 
     for raw_instructor_elem in range(len(raw_instructors)):
@@ -798,7 +780,6 @@ def convert():
         instructors.append(raw_instructor_elem)
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_instructors))
     return_values_temp.append(dict_instructors)
     return_values_temp.append(tuple(instructors))
@@ -807,11 +788,9 @@ def convert():
         
 
     # Create raw instructors field data
-
     raw_instructors_field = all_info[label["instructors_field"]]
 
     # Create dictionary for instructors field data
-
     dict_instructors_field = []
 
     for raw_instructors_field_elem in raw_instructors_field:
@@ -821,7 +800,6 @@ def convert():
         dict_instructors_field.append(dict_instructors_field_temp)
 
     # Creates defaults instructors field data
-
     instructors_field = []
 
     instructors_field_temp = []
@@ -839,86 +817,22 @@ def convert():
                 instructors_field_temp = []
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_instructors_field))
     return_values_temp.append(dict_instructors_field)
     return_values_temp.append(tuple(instructors_field))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
-
-    debug = False
-
-    if debug:
-        
-
-        print("\nLevels: ")
-
-        print(levels)
-        print("\nSections: ")
-        print(sections)
-
-        print()
-
-        print("\nraw subjects: ")
-        print(raw_subjects)
-        print("\n dict subjects: ")
-        print(dict_subjects)
-        print("\nsubjects: ")
-        print(subjects)
-
-        print()
-
-        print("\nraw buildings: ")
-        print(raw_buildings)
-        print("\ndict buildings: ")
-        print(dict_buildings)
-        print("\nbuildings: ")
-        print(buildings)
-
-        print()
-
-        print("\nraw_floors: ")
-        print(raw_floors)
-        print("\nfloors: ")
-        print(floors)
-        
-        print()
-
-        print("\nrooms: ")
-        print(rooms)
-        print("\nraw rooms: ")
-        print(raw_rooms)
-
-        print()
-
-        print("\nraw_instructors: ")
-        print(raw_instructors)
-        print("\ndict_instructors: ")
-        print(dict_instructors)
-        print("\ninstructors: ")
-        print(instructors)
-        
-        print()
-
-        print("\nraw_instructors_field: ")
-        print(raw_instructors_field)
-        print("\ndict_instructors_field: ")
-        print(dict_instructors_field)
-        print("\ninstructors_field: ")
-        print(instructors_field)
-        
-        print()
-
-        print("\ninstructors_avail_time: ")
-        print(instructors_avail_time)
-    
-
     return return_values
 
 def start():    
-    compiled_data=convert()
 
+    global manual
+
+    choose()
+    
+    compiled_data = convert()
+   
     # Unpacks
     levels = compiled_data[0]                       # Single list/tuple
     sections = compiled_data[1]                     # Single list/tuple
@@ -927,7 +841,7 @@ def start():
     parent_buildings = compiled_data[4]             # raw, dict, conv
     parent_floors = compiled_data[5]                # raw, conv
     parent_rooms = compiled_data[6]                 # raw, conv
-    parent_restricted_address = compiled_data[7]           # raw, dict, conv
+    parent_restricted_address = compiled_data[7]    # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
     # restricted area maker thing, format
@@ -965,9 +879,181 @@ def start():
 
     output(compiled_data, chromosome, schedule_counter)
 
- 
-start()
+def clear():
+    os.system('cls')
 
+def console_ui_start():
+
+    clear()
+
+    while True:
+        try:
+            num_levels = int(input(f"Enter number of levels: "))
+            break
+        except ValueError:
+            clear()
+            print("Input must be an integer. Please try again.")
+            
+    levels = []
+    for x in range(num_levels):
+
+        clear()
+        level_name = input(f"Enter name of level {x+1}: ")
+        levels.append(level_name)
+            
+    subjects = []
+    section = []
+    for x in range(len(levels)):
+
+        while True:
+
+            try:
+              
+                num_sections_temp = int(input(f"Enter number of sections in {levels[x]}: "))
+                section.append(num_sections_temp)
+                break
+            except ValueError:
+                clear()
+                print("Input must be integer. Please try again.")
+
+        while True:
+            try:
+               
+                num_subjects_temp = int(input(f"Enter the number of subjects in {levels[x]}: "))
+                break
+
+            except ValueError:
+                clear()
+                print("input must be integer dumbass")
+
+        subject_names_temp2 = []
+        for y in range(num_subjects_temp):
+
+            clear()
+            subject_names_temp = input(f"Enter name of subject {y+1}: ")
+            subject_names_temp2.append(subject_names_temp)
+            
+        subjects.append(subject_names_temp2)
+
+    while True:
+        try:
+            num_buildings = int(input("Enter the number of buildings that will be used: "))
+            break
+        except ValueError:
+            clear()
+            print("input must be integer.")
+
+    restricted_address = []
+    buildings = []
+    floors = []
+    rooms = []
+    for x in range(num_buildings):
+
+        clear()
+        building_name = input(f"Enter name of building {x+1}: ")
+        buildings.append(building_name)
+
+        
+        while True:
+
+            try:
+                floor = int(input(f"Enter the number of floors the building, \"{buildings[x]}\", has: "))
+                floors.append(floor)
+                break
+                
+            except ValueError:
+                clear()
+                print("input invalid")
+
+        
+        while True:
+            try:
+
+                room = int(input(f"Enter the number of rooms each floor in \"{buildings[x]}\": "))
+                rooms.append(room)
+                break
+
+            except ValueError:
+                clear()
+                print("invalid input")
+
+        # Hashmap for ordinal suffixes
+        ordinal_suffixes = {0: "1st", 1: "2nd", 2: "3rd"}
+
+        for y in range(floor):
+            suffix = ordinal_suffixes.get(y, f"{y+1}th")  # Default to "th" if not in the hashmap
+            user_input = input(f"Are there any restricted rooms in \"{buildings[x]}\"'s {suffix} floor? (y/n): ")
+
+            if user_input == 'y':
+
+                while True:
+
+                    try:
+
+                        temp2 = []
+                        temp = input("Enter the room number. If there are multiple, separate them with commas")
+                        temp = temp.split(',')
+
+                        for i in temp:
+                            i = int(i)
+                            temp2.append(i)
+
+                        restricted_address.append([x,y,temp2])
+                        break
+
+                    except ValueError:
+                        clear()
+                        print("for the love of god, use INTEGERS")
+
+    global manual_all_info
+
+    manual_all_info = []
+    manual_all_info.append(levels)
+    manual_all_info.append(section)
+    manual_all_info.append(subjects)
+    manual_all_info.append(buildings)
+    manual_all_info.append(floors)
+    manual_all_info.append(rooms)
+    manual_all_info.append(restricted_address)
+    manual_all_info.append([])
+    manual_all_info.append([])
+                    
+    debug = False
+    if debug:
+        print(levels)
+        print(section)
+        print(subjects)
+        print()
+        print(buildings)
+        print(floors)
+        print(rooms)
+        print(restricted_address)
     
+    return manual_all_info
+        
+def choose():
+
+    clear()
+    print("Use User Data Collection, or Prewritten Data?")
+    print()
+    print("1: Manual Data Collection")
+    print("2: Prewritten")
+
+    user_input = input()
+
+    global all_info
+
+    if user_input == '1':
+
+        all_info = console_ui_start()
+    
+    elif user_input == '2':
+
+        all_info = info()
+    
+        return False
+        
+
+start()
 
     

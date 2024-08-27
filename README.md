@@ -16,11 +16,13 @@ GUI Plans:
 
         Enter name of level _
 
-            how many subjects are in level _? (Interchangeable subjects will count as one. ex: PE/CFFS)
+            How  many sections are in this levl
 
-                for y in how many subjects:
+                how many subjects are in level _? (Interchangeable subjects will count as one. ex: PE/CFFS)
 
-                    enter name of subject {y+1}: 
+                    for y in how many subjects:
+
+                        enter name of subject {y+1}: 
 
     How many buildings are there
 
