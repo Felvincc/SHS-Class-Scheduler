@@ -176,9 +176,6 @@ def info():
 
     return all_info
 
-    
-
-
 def output(compiled_data, chromosome, schedule_counter):
 
     compiled_data=convert()
@@ -194,8 +191,6 @@ def output(compiled_data, chromosome, schedule_counter):
     parent_restricted_address = compiled_data[7]    # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-
- 
 def constrained_randomizer(compiled_data, restricted):
 
     compiled_data=convert()
