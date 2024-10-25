@@ -1,15 +1,21 @@
 import sys
 import random
 import os
+import csv 
 from collections import defaultdict
 
 # fancy way of making a list with 12 zeros ( [0,0,0,0,0,0,0,0...])
 subject_frequency = defaultdict(lambda: [0] * 12)  
+print(defaultdict(lambda: [0] * 12) )
 test = True
+#I FORGOT WHAT THIS IS SUPPOSED TO DO, AND REMOVING IT BREAKS THE CODE
 
 
+def number_to_letter(num):
+    # Adjust `num - 1` because A should correspond to 1
+    return chr(65 + (num - 1))
 
-def info():
+def predetermined_info():
 
     all_info=[]
 
@@ -186,8 +192,6 @@ def info():
 
 def output(compiled_data, chromosome, schedule_counter):
 
-    compiled_data=convert()
-
     # Unpacks
     levels = compiled_data[0]                       # Single list/tuple
     sections = compiled_data[1]                     # Single list/tuple
@@ -199,12 +203,79 @@ def output(compiled_data, chromosome, schedule_counter):
     parent_restricted_address = compiled_data[7]    # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-    for x in chromosome:
-        print(x)
+    # translate / decompile the thing 
+
+    subjects = []
+    for x in parent_subjects[0]:
+        for y in x:
+            subjects.append(y)
+
+    decompiled_schedules = []
+    for i in range(len(chromosome)):
+
+        decompiled_schedules.append([])
+        x = chromosome[i]
+
+        if not x:
+            continue
+
+        decompiled_schedules[i].append(levels[x[0]])
+        decompiled_schedules[i].append(number_to_letter(x[1]))
+
+        for ii in x[2]:
+            decompiled_schedules[i].append(subjects[int(ii)-1])
+
+
+    pass
+
+
+    with open('schedule.csv', mode = 'w') as csvfile:
+
+        fieldnames = [
+            
+                        'level', 'section',
+                        'DAY 1 | 7:00 AM', 'DAY 1 | 8:30 AM',
+                        'DAY 1 | 10:00 AM','DAY 1 | 1:00 PM',
+                        'DAY 1 | 2:30 PM', 'DAY 1 | 4:00 PM',
+                        'DAY 2 | 7:00 AM', 'DAY 2 | 8:30 AM',
+                        'DAY 2 | 10:00 AM','DAY 2 | 1:00 PM',
+                        'DAY 2 | 2:30 PM', 'DAY 2 | 4:00 PM',
+                        
+                    ]
+        
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        
+
+        for x in decompiled_schedules:
+
+            if not x:
+                continue
+
+            
+            writer.writerow     ({
+                    
+                'level':                x[0],    
+                'section':              x[1],   
+                'DAY 1 | 7:00 AM':      x[2],
+                'DAY 1 | 8:30 AM':      x[3],
+                'DAY 1 | 10:00 AM':     x[4],
+                'DAY 1 | 1:00 PM':      x[5],
+                'DAY 1 | 2:30 PM':      x[6],
+                'DAY 1 | 4:00 PM':      x[7],
+                'DAY 2 | 7:00 AM':      x[8],
+                'DAY 2 | 8:30 AM':      x[9],
+                'DAY 2 | 10:00 AM':     x[10],
+                'DAY 2 | 1:00 PM':      x[11],
+                'DAY 2 | 2:30 PM':      x[12],
+                'DAY 2 | 4:00 PM':      x[13],
+              
+                            })
+                
+         
 
 def constrained_randomizer(compiled_data, restricted):
-
-    compiled_data=convert()
 
     # Unpacks
     levels = compiled_data[0]                       # Single list/tuple
@@ -827,10 +898,26 @@ def convert():
 
 def start():    
 
-    global manual
+    global all_info
+    global compiled_data
+    '''
+    clear()
+    print("Use User Data Collection, or Prewritten Data?")
+    print()
+    print("1: Manual Data Collection")
+    print("2: Prewritten")
 
-    choose()
+    user_input = input()
+
+    if user_input == '1':
+
+        all_info = console_user_input_info()
     
+    elif user_input == '2':
+
+        all_info = predetermined_info()
+    '''  
+    all_info = predetermined_info()
     compiled_data = convert()
    
     # Unpacks
@@ -854,7 +941,7 @@ def start():
 
         my_list = []
         restricted.append(my_list)
-        for restricted_list_num in range(6):      # appends the 8 lists correspondent to the 8 available schedules per day
+        for restricted_list_num in range(6):      # appends the 6 lists correspondent to the 6 available schedules per day
 
             my_list = []
             restricted[day].append(my_list)
@@ -864,7 +951,7 @@ def start():
                 restricted[day][restricted_list_num].append(i)       
                 y=-1
 
-        for restricted_list_num in range(6):    # goes 0 - 7
+        for restricted_list_num in range(6):    # goes 0 - 5
 
             a = - 1     
             for x in parent_floors[1]:
@@ -882,7 +969,7 @@ def start():
 def clear():
     os.system('cls')
 
-def console_ui_start():
+def console_user_input_info():
 
     clear()
 
@@ -1005,7 +1092,6 @@ def console_ui_start():
                         clear()
                         print("for the love of god, use INTEGERS")
 
-    global manual_all_info
 
     manual_all_info = []
     manual_all_info.append(levels)
@@ -1031,28 +1117,7 @@ def console_ui_start():
     
     return manual_all_info
         
-def choose():
 
-    clear()
-    print("Use User Data Collection, or Prewritten Data?")
-    print()
-    print("1: Manual Data Collection")
-    print("2: Prewritten")
-
-    user_input = input()
-
-    global all_info
-
-    if user_input == '1':
-
-        all_info = console_ui_start()
-    
-    elif user_input == '2':
-
-        all_info = info()
-    
-        return False
-        
 
 start()
 
