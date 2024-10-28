@@ -76,7 +76,7 @@ def predetermined_info():
                         "PE/CFFS A11",
                         "CPAR A11",
                         "Medil A11",
-                        "Org and Manage A11"
+                        "Org and Manage A11",
                         "Earth Science A11"
                     ),
 
@@ -203,7 +203,27 @@ def output(compiled_data, chromosome, schedule_counter):
     parent_restricted_address = compiled_data[7]    # raw, dict, conv
     parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
+    single_subjects = []
+    for subject in parent_subjects[0]:
+        for x in subject:
+            single_subjects.append(x)
+
+    single_subjects.insert(0, 00)
+    single_subjects = tuple(single_subjects)
+
+    temp = []
+    for x in range(len(levels)):
+        for i in parent_subjects[0][x]:
+            temp.append(i)
+
+    all_converted_subjects = [0]
+
+    for x in range(len(temp)):
+        all_converted_subjects.append(x+1)
+    
+
     # translate / decompile the thing 
+
 
     subjects = []
     for x in parent_subjects[0]:
@@ -213,6 +233,7 @@ def output(compiled_data, chromosome, schedule_counter):
     decompiled_schedules = []
     for i in range(len(chromosome)):
 
+        temp = []
         decompiled_schedules.append([])
         x = chromosome[i]
 
@@ -222,17 +243,37 @@ def output(compiled_data, chromosome, schedule_counter):
         decompiled_schedules[i].append(levels[x[0]])
         decompiled_schedules[i].append(number_to_letter(x[1]))
 
-        for ii in x[2]:
-            decompiled_schedules[i].append(subjects[int(ii)-1])
+        for ii in range(12):
+            temp_sub = []
+            temp_bld = []
+
+            if int(x[2][ii]) == 0:
+                decompiled_schedules[i].append('')
+                continue
+            else:
+                temp_sub = single_subjects[int(x[2][ii])-1]
+
+            schd = ii
+            day = 0
+            if ii > 5:
+                schd = ii - 6
+                day = 1
+
+            temp_bld = parent_buildings[0][int(x[3][day][schd][:2])-1] + ' F' + str(x[3][day][schd][2:4]) + ' R' + str(x[3][day][schd][4:6])
+            
+
+            decompiled_schedules[i].append(str(temp_sub) + '\n' + str(temp_bld))
+        pass
 
 
+        
+           
     pass
 
-
-    with open('schedule.csv', mode = 'w') as csvfile:
+    with open('schedule.csv', mode = 'w', newline='') as csvfile:
 
         fieldnames = [
-            
+
                         'level', 'section',
                         'DAY 1 | 7:00 AM', 'DAY 1 | 8:30 AM',
                         'DAY 1 | 10:00 AM','DAY 1 | 1:00 PM',
@@ -296,13 +337,18 @@ def constrained_randomizer(compiled_data, restricted):
     for subject in parent_subjects[0]:
         for x in subject:
             single_subjects.append(x)
+
+    single_subjects.insert(0, 00)
     single_subjects = tuple(single_subjects)
+
+
 
     # dictionary comprehension for making a dictionary of all the subjects (with no duplicates) with a id number
     subject_id_dict = {element: idx + 1 for idx, element in enumerate(single_subjects)}
 
     # Creates lists for each level with their respective subject ids
     converted_level_subjects =[]
+
     for x in range(len(levels)):
         temp = []
         for i in parent_subjects[0][x]:
@@ -313,13 +359,18 @@ def constrained_randomizer(compiled_data, restricted):
                     temp.append(value)
 
         converted_level_subjects.append(temp)
-        
-    temp = []
-    all_converted_subjects = []
+ 
 
-    # combines all the subjects into a single list
-    for x in range((len(converted_level_subjects))):
-        all_converted_subjects = all_converted_subjects + converted_level_subjects[x]
+    temp = []
+    for x in range(len(levels)):
+        for i in parent_subjects[0][x]:
+            temp.append(i)
+
+    all_converted_subjects = [0]
+
+    for x in range(len(temp)):
+        all_converted_subjects.append(x+1)
+
 
     # This loop makes the schedule counter, which tracks the subjects used per schedule, this is used to ensure that there will be as little overlapping in subject schedules
     for x in range(2):
