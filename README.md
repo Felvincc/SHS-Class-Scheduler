@@ -1,14 +1,17 @@
-class schedule thing
+Senior High School Timetable Scheduling Using Constrained Randomizer
 
-this program uses a constrained random algorithm, with principles of greedy algorithm.
+Installation:
 
-How it works:
+    
+Usage:
 
-    The program takes the user input, and compiles it into data the program can read.
+    Add instructors
+    Add rooms
+    Add subjects
+    Add sections
+    Generate solution
+    Export or View Result
 
-    The data is then put through the constrained randomizer.
-
-    Then the output is interpreted into a form that can be read by people
 
 GUI Plans:
 
