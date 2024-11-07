@@ -1,64 +1,108 @@
 import sys
 import random
 import os
+import csv 
+from collections import defaultdict
+
+# fancy way of making a list with 12 zeros ( [0,0,0,0,0,0,0,0...])
+subject_frequency = defaultdict(lambda: [0] * 12)  
+print(defaultdict(lambda: [0] * 12) )
+test = True
+#I FORGOT WHAT THIS IS SUPPOSED TO DO, AND REMOVING IT BREAKS THE CODE
 
 
-def info():
+def number_to_letter(num):
+    # Adjust `num - 1` because A should correspond to 1
+    return chr(65 + (num - 1))
+
+def predetermined_info():
 
     all_info=[]
 
-    levels =        (                                       #CHANGE ME BACK
+    levels =        (                                
 
-                        "g11_steam",
-                        #"g12_steam"
-
+                        "G11 STEAM",
+                        "G12 STEAM",
+                        "G11 ABM",
+                        "G12 ABM",
+                        
+                  
                     )
     
     all_info.append(levels)
 
 
     section =       (
-                        45,
-                        #19
+                        15,
+                        15,
+                        15,
+                        15,
+                        
+                    
                     )
     
     all_info.append(section)
 
-    subjects = (                                    # Last to subjects should be the interchangeable subjects (pe, cffs)
+    subjects = (                                 
 
                     (
-                        "precalc",
-                        "stats",
-                        "ucsp",
-                        "iphp",
-                        "esci",
-                        "emptech",
-                        "oralcom"
-                        "peh",
-                        "cffs",
-
-
+                        "Pre-calculus S11",
+                        "Statistics S11",
+                        "UCSP S11",
+                        "IPHP S11",
+                        "Earth Science S11",
+                        "Emptech S11",
+                        "Oral Com S11",
+                        "PE/CFFS S11"
                     ),
 
                     (
-                        "english",
-                        "chemistry",
-                        "cpar",
-                        "filipino"
-                        "biology",
-                        "inqvest",
-                        "physics",
-                        "peh",
-                        "cffs"
-                    )
+                        "English S12",
+                        "Chemistry S12",
+                        "CPAR S12",
+                        "Filipino S12",
+                        "Biology S12",
+                        "InqVest S12",
+                        "Physics S12",
+                        "PEH/CFFS S12",
+                    ),
+
+                    (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11",
+                        "Earth Science A11"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+     
+
                 )
     
     all_info.append(subjects)
 
     buildings =     (
 
-                        "suhs",
-                        #"guy_hall",           
+                        "SUHS",
+                        "Guy Hall"
+                        
+                         
 
                     )
     
@@ -67,7 +111,8 @@ def info():
     floors =        (                  # COUNT FROM one)         
         
                         3,
-                        #3
+                        3
+                        
         
                     )
     
@@ -76,7 +121,8 @@ def info():
     rooms =         (           #count from 1
         
                         12,
-                        #12
+                        12
+                        
         
                     )
     
@@ -84,15 +130,14 @@ def info():
 
     #                   Make exceptions list for rooms that are not able to be used (ex. faculty rooms)
 
-    instructors =   (
+    restricted_address =   (
 
-                        "jimmy",
-                        "bob",
-                        "david"
+                        (0, 1, [1,2,3]),
+                        (1, 1, [6]),
 
                     )
     
-    all_info.append(instructors)
+    all_info.append(restricted_address)
     
     instructors_field = (
 
@@ -140,250 +185,354 @@ def info():
     
     all_info.append(instructors_avail_time)
 
-
-
+   
     #all_info = (levels, section, subjects, buildings, floors, rooms, instructors, instructors_field, instructors_available_time)
 
     return all_info
 
+def output(compiled_data, chromosome, schedule_counter):
+
+    # Unpacks
+    levels = compiled_data[0]                       # Single list/tuple
+    sections = compiled_data[1]                     # Single list/tuple
+    instructors_avail_time = compiled_data[2]       # single list/tuple
+    parent_subjects = compiled_data[3]              # raw, dict, conv
+    parent_buildings = compiled_data[4]             # raw, dict, conv
+    parent_floors = compiled_data[5]                # raw, conv
+    parent_rooms = compiled_data[6]                 # raw, conv
+    parent_restricted_address = compiled_data[7]    # raw, dict, conv
+    parent_instructors_field = compiled_data[8]     # raw, dict, conv
+
+    single_subjects = []
+    for subject in parent_subjects[0]:
+        for x in subject:
+            single_subjects.append(x)
+
+    single_subjects.insert(0, 00)
+    single_subjects = tuple(single_subjects)
+
+    temp = []
+    for x in range(len(levels)):
+        for i in parent_subjects[0][x]:
+            temp.append(i)
+
+    all_converted_subjects = [0]
+
+    for x in range(len(temp)):
+        all_converted_subjects.append(x+1)
     
 
-def fitness ():             #checks fitness level
-    
-    ideal_num_breaks_morning = 1
-
-    ideal_num_breaks_afternoon = 1
-
-    ideal_sched_start = 1
-
-    ideal_sched_end = 3
-
-    room_distance = 1
+    # translate / decompile the thing 
 
 
-    difficulty_0 = ()
+    subjects = []
+    for x in parent_subjects[0]:
+        for y in x:
+            subjects.append(y)
 
-    difficulty_1 = ()
+    decompiled_schedules = []
+    for i in range(len(chromosome)):
 
-    difficulty_2 = ()
+        temp = []
+        decompiled_schedules.append([])
+        x = chromosome[i]
 
-    ideal_subject_placement = ("0120","0120")
+        if not x:
+            continue
+
+        decompiled_schedules[i].append(levels[x[0]])
+        decompiled_schedules[i].append(number_to_letter(x[1]))
+
+        for ii in range(12):
+            temp_sub = []
+            temp_bld = []
+
+            if int(x[2][ii]) == 0:
+                decompiled_schedules[i].append('')
+                continue
+            else:
+                temp_sub = single_subjects[int(x[2][ii])-1]
+
+            schd = ii
+            day = 0
+            if ii > 5:
+                schd = ii - 6
+                day = 1
+
+            temp_bld = parent_buildings[0][int(x[3][day][schd][:2])-1] + ' F' + str(x[3][day][schd][2:4]) + ' R' + str(x[3][day][schd][4:6])
+            
+
+            decompiled_schedules[i].append(str(temp_sub) + '\n' + str(temp_bld))
+        pass
+
+
+        
+           
+    pass
+
+    with open('schedule.csv', mode = 'w', newline='') as csvfile:
+
+        fieldnames = [
+
+                        'level', 'section',
+                        'DAY 1 | 7:00 AM', 'DAY 1 | 8:30 AM',
+                        'DAY 1 | 10:00 AM','DAY 1 | 1:00 PM',
+                        'DAY 1 | 2:30 PM', 'DAY 1 | 4:00 PM',
+                        'DAY 2 | 7:00 AM', 'DAY 2 | 8:30 AM',
+                        'DAY 2 | 10:00 AM','DAY 2 | 1:00 PM',
+                        'DAY 2 | 2:30 PM', 'DAY 2 | 4:00 PM',
+                        
+                    ]
+        
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        
+
+        for x in decompiled_schedules:
+
+            if not x:
+                continue
+
+            
+            writer.writerow     ({
+                    
+                'level':                x[0],    
+                'section':              x[1],   
+                'DAY 1 | 7:00 AM':      x[2],
+                'DAY 1 | 8:30 AM':      x[3],
+                'DAY 1 | 10:00 AM':     x[4],
+                'DAY 1 | 1:00 PM':      x[5],
+                'DAY 1 | 2:30 PM':      x[6],
+                'DAY 1 | 4:00 PM':      x[7],
+                'DAY 2 | 7:00 AM':      x[8],
+                'DAY 2 | 8:30 AM':      x[9],
+                'DAY 2 | 10:00 AM':     x[10],
+                'DAY 2 | 1:00 PM':      x[11],
+                'DAY 2 | 2:30 PM':      x[12],
+                'DAY 2 | 4:00 PM':      x[13],
+              
+                            })
+                
+         
 
 def constrained_randomizer(compiled_data, restricted):
 
-    compiled_data=convert()
-    #print(compiled_data)
+    # Unpacks
+    levels = compiled_data[0]                       # Single list/tuple
+    sections = compiled_data[1]                     # Single list/tuple
+    instructors_avail_time = compiled_data[2]       # single list/tuple
+    parent_subjects = compiled_data[3]              # raw, dict, conv
+    parent_buildings = compiled_data[4]             # raw, dict, conv
+    parent_floors = compiled_data[5]                # raw, conv
+    parent_rooms = compiled_data[6]                 # raw, conv
+    parent_restricted_address = compiled_data[7]    # raw, dict, conv
+    parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-    #               UNPACKS THE DATA RETURNED FROM convert()
-
-    # Single list/tuple
-    levels = compiled_data[0]
-    #print(levels)
-
-    # Single list/tuple
-    sections = compiled_data[1]
-    #print(sections)
-
-    # single list/tuple
-    instructors_avail_time = compiled_data[2]
-    #print(instructors_avail_time)
-
-    # raw, dict, conv
-    parent_subjects = compiled_data[3]
-    #print(parent_subjects)
+    temp = []
+    schedule_counter = []
     
-    # raw, dict, conv
-    parent_buildings = compiled_data[4]
-    #print(parent_buildings)
+    # combines all the subjects into a set (set to prevent duplicates)
+    single_subjects = []
+    for subject in parent_subjects[0]:
+        for x in subject:
+            single_subjects.append(x)
 
-    # raw, conv
-    parent_floors = compiled_data[5]
-    #print(parent_floors)
+    single_subjects.insert(0, 00)
+    single_subjects = tuple(single_subjects)
 
-    # raw, conv
-    parent_rooms = compiled_data[6]
-    #print(parent_rooms)
 
-    # raw, dict, conv
-    parent_instructors = compiled_data[7]
-    #print(parent_instructors)
 
-    # raw, dict, conv
-    parent_instructors_field = compiled_data[8]
-    #print(parent_instructors_field)
+    # dictionary comprehension for making a dictionary of all the subjects (with no duplicates) with a id number
+    subject_id_dict = {element: idx + 1 for idx, element in enumerate(single_subjects)}
 
+    # Creates lists for each level with their respective subject ids
+    converted_level_subjects =[]
+
+    for x in range(len(levels)):
+        temp = []
+        for i in parent_subjects[0][x]:
+            
+            for key, value in subject_id_dict.items():
+                
+                if i == key:
+                    temp.append(value)
+
+        converted_level_subjects.append(temp)
+ 
+
+    temp = []
+    for x in range(len(levels)):
+        for i in parent_subjects[0][x]:
+            temp.append(i)
+
+    all_converted_subjects = [0]
+
+    for x in range(len(temp)):
+        all_converted_subjects.append(x+1)
+
+
+    # This loop makes the schedule counter, which tracks the subjects used per schedule, this is used to ensure that there will be as little overlapping in subject schedules
+    for x in range(2):
+
+        schedule_counter.append([])
+        for y in range(6):
+
+            schedule_counter[x].append([])
+            for subject in all_converted_subjects:
+                
+                if not [subject, 0] in schedule_counter[x][y]:
+
+                    schedule_counter[x][y].append([subject, 0])
+
+    
+    # makes the thing with the thing (READ THE THING BELOW STUPID)
+    # creates the restricted list, which is used to prevent the same room from being used in the same time slot
+    temp=[]
+    for level in range(2):
+
+        temp.append([])
+        for day in range(2):
+            temp[level].append([])
+
+            for timeslot in range(6):
+                temp[level][day].append(1)
+
+    schedule_restricted = temp
+    temp = []
+
+    # appends the PRE-restricted values to the restricted list
+    pre_restricted_address = parent_restricted_address[0]
+    for i in range(len(pre_restricted_address)):
+
+        for x in range(2):
+
+            for y in range(6):  
+
+                elem = pre_restricted_address[i]
+                restricted[x][y][elem[0]][1][elem[1]].extend(elem[2])
+
+    # Main constrained randomizer ===============================================================================================
 
     chromosome = []
-
-
-
     for level in range(len(levels)):
+
+        chromosome_temp = []
+
+        # creates the randomized subject schedule       
+        num_subjects = len(parent_subjects[0][level])+1
 
         for section in range(sections[level]):
 
-            chromosome.append(level)
+            # appends the level and section to the chromosome
+            chromosome_temp.append(level)
+            chromosome_temp.append(section)
 
-            # no 1st segment yet make this NOW!
-
-            schedule_conditions = 0
-
-            '''      This code snippet is dumb, but il keep it here
-                        
-
-            # creates randomized binary thing for schedule, keeps repeating until the amount of 1s reaches the minimum number (number of subjects)
-
-            num_subjects = len(parent_subjects[0][level])+1
-
-            component_schedule = rand_schedule(num_subjects)
-
-            chromosome.append(component_schedule)
-                
-            #print(component_schedule)
-            '''
-
-
-            # creates the randomized subject schedule
-
-            num_subjects = len(parent_subjects[0][level])+1
-
-            conv_subjects = parent_subjects[2][level]
-
-            component_subject, ignore_list = rand_subjects_schedule(num_subjects)
-
-            chromosome.append(component_subject)
-
-            #print(component_subject)
-
+            # fetches the randomized subjects
+            component_subject, ignore_list, schedule_restricted = rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, converted_level_subjects, level, schedule_restricted)
+            chromosome_temp.append(tuple(component_subject))
 
             # gets the randomized building, floors, and rooms values
-
             num_buildings = len(parent_buildings[0])-1
 
-            #print(num_buildings)
-            
-            address_module, error=buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list )
+            # fetches the address module
+            address_module, error = buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list )
+            chromosome_temp.append(address_module)
 
+            # probably a better way of doing this, but i dont know how!!!!!!!!!!!!!!!!!!!!!!!!
             if error:
 
                 print("error_01")
                 exit()
-   
-    pass
+
+            # appends the current chromosome to the chromosome list
+            chromosome_temp=[]
+            chromosome.append(chromosome_temp)
+        
+    return chromosome, schedule_restricted
            
 def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted, ignore_list):
 
-
     address_module = []
-
-    # fix restricted stuff
-
-    # restricted format:  [ [[floor], [room], building 1], [[floor], [room], building 2] ]
-
-
+ 
+    # restricted list format: [ [ [floor], [room], building 1], [ [floor], [room], building 2] ]
     # BE SURE YOU APPEND THE RESTRICTED BUILDING AT THE LAST, NEVER AT THE FIRST
 
-    
-    for day in range(2):
+    # these for loops represent the 2 days, and the 6 time slots per day
+    for x in range(2):
+        for y in range(6):
 
-        for x in range(6):
-
+            # checks if the value is in the ignore list, if it is, it will overwrite the value
             overwrite = False
-
-            if x in ignore_list[day]:
+            if y in ignore_list[x]:
 
                 error = False
-
                 overwrite = True
 
             in_list = True
-
             error_01 = 0
 
+            # chooses a building that is available, if none are available, it will return an error
             while in_list:
             
                 chosen_building = random.randint(0, num_buildings)       # <<<<<<<<<<
-
-                in_list = chosen_building in restricted[day][x]
-
+                in_list = chosen_building in restricted[x][y]
                 error_01 = error_01 + 1
 
                 if error_01 == 500000:
 
                     error = True
-                    
                     return "000000", error
                     
-
             in_list = True
-
             error_01 = 0
 
+            # chooses a floor that is available, if none are available, it will return an error
             while in_list:
 
                 chosen_floor = random.randint(1, len(parent_floors[1][chosen_building]))
-
-                
-
-                in_list = chosen_floor in restricted[day][x][chosen_building][0]
-
-        
-
+                in_list = chosen_floor in restricted[x][y][chosen_building][0]
                 error_01 = error_01 + 1
 
-                
-
                 if error_01 == 500000:
-
                     error = True
-                    
                     return "000000", error
 
-        
             in_list = True
-
             error_01 = 0
 
+            # chooses a room that is available, if none are available, it will return an error
             while in_list:
 
                 chosen_room = random.randint(1,len(parent_rooms[1][chosen_building]))
-
-                in_list = chosen_room in restricted[day][x][chosen_building][1][chosen_floor-1]
-
+                in_list = chosen_room in restricted[x][y][chosen_building][1][chosen_floor-1]
                 error_01 = error_01 + 1
 
                 if error_01 == 500000:
-
                     error = True
-
                     return "000000", error
 
             # inshallah you will get through debugging
             
             # appends the the values to restricted to preven them from showing up again
-
             if not overwrite:
 
-                restricted[day][x][chosen_building][1][chosen_floor-1].append(chosen_room)
+                restricted[x][y][chosen_building][1][chosen_floor-1].append(chosen_room)
+                if len(restricted[x][y][chosen_building][1][chosen_floor-1]) == len(parent_rooms[1][chosen_building]):
 
-                if len(restricted[day][x][chosen_building][1][chosen_floor-1]) == len(parent_rooms[1][chosen_building]):
+                    restricted[x][y][chosen_building][0].append(chosen_floor)
 
-                    restricted[day][x][chosen_building][0].append(chosen_floor)
+                if len(restricted[x][y][chosen_building][0]) == len(parent_floors[1][chosen_building]):
 
-                if len(restricted[day][x][chosen_building][0]) == len(parent_floors[1][chosen_building]):
-
-                    restricted[day][x][chosen_building].append(chosen_building)
+                    restricted[x][y][chosen_building].append(chosen_building)
 
         
             # pads all the values by 2 (1 = 01, 12 = 12, 6 = 06)
-
             chosen_building = str(chosen_building+1).zfill(2)
-
             chosen_floor = str(chosen_floor).zfill(2)
-
             chosen_room = str(chosen_room).zfill(2)
 
             # adds all the padded stuff together to complete the moudle
-        
             address_module_temp = chosen_building+chosen_floor+chosen_room
 
             if overwrite:
@@ -391,159 +540,200 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
 
             address_module.append(address_module_temp)
 
-
             error = False
             debug = False
+           
+            # self explanatory
             if debug:
+
                 os.system('cls')
                 print(restricted)
                 print()
-                print(day)
-                print(x)
-                print(ignore_list)
                 print(address_module)
+
+    temp = []
+    temp2 = []
+
+    # splits the list in half, and turns it into a tuple
+    for y in range(len(address_module)):
+        temp.append(address_module[y])
+
+        if y == 5 or y == 11:
+            temp2.append(tuple(temp))
+            
+            temp = []
+
+    temp2 = tuple(temp2)
+    address_module = temp2
 
     return address_module, error
 
-def rand_subjects_schedule(num_subjects):            # this function turned out more complex than expected
+def rand_subjects_schedule(num_subjects, schedule_counter, subject_id_dict, converted_level_subjects, level, schedule_restricted):   
+    iterations = 100
 
-    component_subject_temp = []
+    global subject_frequency
+    component_subject = None
+    best_score = float('inf')
 
-    component_subject = []
+    for _ in range(iterations):
+        component_subject = []
+        num_subjects_list = []
 
-    temp = []
-
-    num_subjects_list = []
-
-    # turns the num of subjects into a list
-
-    for x in range(num_subjects):
-        num_subjects_list.append(x)
-
-    # removes the 0 from the newly made list, (0 is intended for no subjects)
-
-    num_subjects_list = num_subjects_list[1:]
-
-    # random sample thing for the arrangement of subjects
-
-    temp = random.sample(num_subjects_list, num_subjects-1)
-
-    # takes the center of the num of subjects
-
-    half = num_subjects // 2
-
-    # random number thing (will make sense later)
-
-    random_half = random.randint(0,1)
-
-    # splits the subject schedule for the 2 days of class
-
-    first_half = temp[:half]
-
-    second_half = temp[half:]
-    
-    # subtracts how many subjects per day to the available time in the schedule (8)
-
-    first_half_blank = 6 - len(first_half)
-
-    second_half_blank = 6 - len(second_half)
-
-    # adds the blank subjects to fill it up
-
-    for x in range(first_half_blank):
-
-        temp = random.randint(0,len(first_half))
-
-        first_half.insert(temp, 0)
-
-    for x in range(second_half_blank):
-
-        temp = random.randint(0,len(first_half))
-
-        second_half.insert(temp, 0)
-
-    first_half = tuple(first_half)
-
-    second_half = tuple(second_half)
-
-    # uses the random number generated to determine the order of the halves (in odd number cases, the bigger number will always be last, this is to prevent that)
-
-    if random_half == 0:
+        # makes list a of "XX", where it is repeated x times, where x is the num of subjects
+        for _ in range(1,num_subjects):
+            num_subjects_list.append("XX")
+        
+        # Determine the split point
+        half = num_subjects // 2
+        
+        # Split the subjects into two groups
+        first_half = num_subjects_list[:half]
+        second_half = num_subjects_list[half:]
+        
+        # Calculate how many blanks ("00") need to be added to each half
+        first_half_blank = 6 - len(first_half)
+        second_half_blank = 6 - len(second_half)
+        
+        # Add blanks to each half
+        for _ in range(first_half_blank):
+            first_half.insert(random.randint(0, len(first_half)), 0)
+        
+        for _ in range(second_half_blank):
+            second_half.insert(random.randint(0, len(second_half)), 0)
+        
+        # Combine halves and pad numbers to two digits, also pads the values
+        first_half = tuple(str(x).zfill(2) for x in first_half)
+        second_half = tuple(str(x).zfill(2) for x in second_half)
 
         component_subject_temp = first_half, second_half
 
-    else:
-
-        component_subject_temp = second_half, first_half
-
-
-    #turns the stuff into a tuple (apparently tuples are more efficient, but i dont know if its less efficient to convert them, or leave them as lists)
-
-    for tuple_elem in component_subject_temp:
-
-        temp = []
+        for tuple_elem in component_subject_temp:
+            temp = [str(int_elem).zfill(2) for int_elem in tuple_elem]
+            component_subject.append(tuple(temp))
         
-        for int_elem in tuple_elem:
+        # Calculate the distribution score (lower is better)
+        score = 0
+        for i in range(6):
+            score += subject_frequency[component_subject[0][i]][i]
+            score += subject_frequency[component_subject[1][i]][i + 6]
 
-            str_elem = str(int_elem).zfill(2)
-
-            temp.append(str_elem)
-
-        temp_2 = tuple(temp)
-
-        component_subject.append(temp_2)
+        # Keep the schedule with the best (lowest) score
+        if score < best_score:
+            best_score = score
 
 
+    # Update the frequency tracker with the best schedule
+    for i in range(6):
+        subject_frequency[component_subject[0][i]][i] += 1
+        subject_frequency[component_subject[1][i]][i + 6] += 1
+
+    # Create ignore_list
     ignore_list = []
 
+    best_component_subject = []
     for x in range(2):
-
         ignore_list.append([])
-
         for y in range(6):
-
-            ignore = "00" in component_subject[x][y]
-
-            if ignore:
+            if component_subject[x][y] == "00":
                 ignore_list[x].append(y)
-        
         ignore_list[x] = tuple(ignore_list[x])
-        
+
     ignore_list = tuple(ignore_list)
     
-    print(component_subject)
+    '''
+        Very interesting greedy algorithm stuff: So, because of the nature of greedy algorithms
+        later iterations will most likely suffer from the consequences of the first few iterations.
+        i.e. the first iterations take the best solutions, causing the last iterations to be forced
+        to use the worse solutions.
 
-    return component_subject, ignore_list
+        So i did my research and found that, 1. there are many ways to solve and prevent those issues,
+        2. those ways to solve and prevent that issue are complicated, 3. I am lazy. So instead of
+        using buffers, look aheads, post-processing optimization, dynamic algorithms, or even genetic
+        algorithms. I just shuffled the original reference list, so the first iterations being favoured
+        will (not) always be randomized helping even out the distribution.
 
-def rand_schedule(num_subjects):        # currently serves no purpose (will indefinetly stay with no purpose)
+        Although this way is quite primitive, it works and fits quite well with the intended goal.
+        This way of fixing this issue is not as graceful as the other methods, but the program does
+        not call for or need these other ways.
 
-    schedule_conditions = 0
+        tl;dr: im lazy, and because im lazy, i found a nice and simple solution
 
-    component_schedule = []
+        8/25/2025 1:36 AM
+
+        i spoke too soon, this did not solve the issue completely FUUUUUUUCCCCCCCCCCCCCCCCCKKKKKKK
+
+        8/25/2025 1:42 AM
+    '''
 
 
-    while schedule_conditions != num_subjects:
+    #FFUUUUUUUUUUUUUCKKKKKKK  FIX THI SHIT!!!!!!!!!!!!!! 
+    # update: WE FIXXXEDD THIIISH SHIIIIIIITTT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
-        component_schedule=[]
+    # initializes the index address list, shuffles the converted sub levels to minimize downsides of greedy algorithm
+    index_address = []
+    random.shuffle(converted_level_subjects[level])
+    for subject_id in converted_level_subjects[level]:
 
-        for _ in range(4):
+        for subject in schedule_counter[0][0]:
 
-            for _ in range(4):
+            if subject[0] == subject_id:
 
-                component_schedule.append(random.randint(0,1))
+                temp = schedule_counter[0][0].index(subject)
+                index_address.append(temp)
+                temp = []
+                break
 
-        schedule_conditions = component_schedule.count(1)
+    output_temp = []
+    restricted_address = []
 
-    component_schedule = tuple()
+    # these are the stuff the appends the subjects to the output list
+    for x in range(2):
 
-    return component_schedule
-        
+        # goes through the 6 time slots for subjects (total of 12 [2*6])
+        for y in range(6):
+            subject = component_subject[x][y]
+            if subject == "00":
+                output_temp.append("00")
+    
+            else:
+
+                # gets the amount of times a the levels subjects are repeated
+                instances = []
+                for address in index_address:
+                    instances.append(schedule_counter[x][y][address][1])
+
+                # saves the best (smallest) amount of times a subject is repeated and its address with constraints
+                best_instance = 1000
+                for instance_address in range(len(instances)):
+
+                    instance = instances[instance_address]
+                    if instance_address not in restricted_address:
+
+                        if instance < best_instance:
+                            best_instance = instance
+                            best_instance_address = instance_address
+                            
+                # adds to the constraints and appends the value blah blah blah
+                restricted_address.append(best_instance_address)
+                output_temp.append(str(converted_level_subjects[level][best_instance_address]).zfill(2))
+                schedule_counter[x][y][index_address[best_instance_address]][1] = schedule_counter[x][y][index_address[best_instance_address]][1] + 1
+                pass
+                        
+    output_temp = tuple(output_temp)
+    component_subject = output_temp
+
+    debug = False
+
+    if debug:
+        print(component_subject_temp) #Switch me to component_subject_temp for the subject template stuff
+        print(ignore_list)
+
+    return component_subject, ignore_list, schedule_counter
+     
 def convert():
 
     temp = []
-
     return_values = []
-
     return_values_temp=[]
 
 
@@ -560,8 +750,6 @@ def convert():
         "instructors_avail_time":8
 
     }
-
-    all_info = info()
 
     # No need to convert these data because it will only be used for for loop values, or conditions, as supposed to genes in the chromosome
 
@@ -580,13 +768,10 @@ def convert():
                          
     #                         raw = straight from data set, no prefix = default data, converted data, dict = conversion dictionary for raw data and converted data,                      
                                
-
     #Creates raw subjects data                                
-    
     raw_subjects = all_info[label["subjects"]]
 
     # Creates conversion dictionary for subjects
-
     dict_subjects=[]    
 
     for raw_subjects_elem in raw_subjects:
@@ -595,8 +780,8 @@ def convert():
 
         dict_subjects.append(dict_subjects_temp)
 
-    # Creates default data from raw subject data
 
+    # Creates default data from raw subject data
     subjects = []
 
     for subjs in all_info[label["subjects"]]:                                   
@@ -612,27 +797,20 @@ def convert():
                 temp = []
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_subjects))
     return_values_temp.append(dict_subjects)
     return_values_temp.append(tuple(subjects))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
-                
-
-
     # Creates raw buildings data
-
     raw_buildings = all_info[label["buildings"]]
 
     # Creates dictionary buildings data
-
     dict_buildings = {index: element for index, element in enumerate(all_info[label["buildings"]])}
 
 
     # Creates default buildings data
-
     buildings = []
 
     for buildings_elem in range(len(raw_buildings)):
@@ -640,7 +818,6 @@ def convert():
         buildings.append(buildings_elem)
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_buildings))
     return_values_temp.append(dict_buildings)
     return_values_temp.append(tuple(buildings))
@@ -651,11 +828,9 @@ def convert():
 
 
     # Creates raw floors data
-
     raw_floors = all_info[label["floors"]]   
 
     # Creates default floors data
-
     floors = []
 
     floors_temp=[]
@@ -676,20 +851,17 @@ def convert():
 
     
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_floors))
     return_values_temp.append(tuple(floors))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
-    #print(floors)
+
 
     # Creates raw rooms data
-      
     raw_rooms = all_info[label["rooms"]]
 
     # Creates default rooms data
-
     rooms_temp = []
 
     rooms = []
@@ -709,7 +881,6 @@ def convert():
                 rooms_temp = []
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_rooms))
     return_values_temp.append(tuple(rooms))
     return_values.append(tuple(return_values_temp))
@@ -718,15 +889,12 @@ def convert():
 
                 
     # Creates raw instructors
-
     raw_instructors = all_info[label["instructors"]]
 
     # Creates dictionary for instructors
-
     dict_instructors = {index: element for index, element in enumerate(all_info[label["instructors"]])}
 
     # Creates default instructors data
-
     instructors = []
 
     for raw_instructor_elem in range(len(raw_instructors)):
@@ -734,7 +902,6 @@ def convert():
         instructors.append(raw_instructor_elem)
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_instructors))
     return_values_temp.append(dict_instructors)
     return_values_temp.append(tuple(instructors))
@@ -743,11 +910,9 @@ def convert():
         
 
     # Create raw instructors field data
-
     raw_instructors_field = all_info[label["instructors_field"]]
 
     # Create dictionary for instructors field data
-
     dict_instructors_field = []
 
     for raw_instructors_field_elem in raw_instructors_field:
@@ -757,7 +922,6 @@ def convert():
         dict_instructors_field.append(dict_instructors_field_temp)
 
     # Creates defaults instructors field data
-
     instructors_field = []
 
     instructors_field_temp = []
@@ -775,136 +939,50 @@ def convert():
                 instructors_field_temp = []
 
     # appends data from above to return_values_temp, then appends return_values_temp to the final return values
-
     return_values_temp.append(tuple(raw_instructors_field))
     return_values_temp.append(dict_instructors_field)
     return_values_temp.append(tuple(instructors_field))
     return_values.append(tuple(return_values_temp))
     return_values_temp=[]
 
-
-    debug = False
-
-    if debug:
-        
-
-        print("\nLevels: ")
-
-        print(levels)
-        print("\nSections: ")
-        print(sections)
-
-        print()
-
-        print("\nraw subjects: ")
-        print(raw_subjects)
-        print("\n dict subjects: ")
-        print(dict_subjects)
-        print("\nsubjects: ")
-        print(subjects)
-
-        print()
-
-        print("\nraw buildings: ")
-        print(raw_buildings)
-        print("\ndict buildings: ")
-        print(dict_buildings)
-        print("\nbuildings: ")
-        print(buildings)
-
-        print()
-
-        print("\nraw_floors: ")
-        print(raw_floors)
-        print("\nfloors: ")
-        print(floors)
-        
-        print()
-
-        print("\nrooms: ")
-        print(rooms)
-        print("\nraw rooms: ")
-        print(raw_rooms)
-
-        print()
-
-        print("\nraw_instructors: ")
-        print(raw_instructors)
-        print("\ndict_instructors: ")
-        print(dict_instructors)
-        print("\ninstructors: ")
-        print(instructors)
-        
-        print()
-
-        print("\nraw_instructors_field: ")
-        print(raw_instructors_field)
-        print("\ndict_instructors_field: ")
-        print(dict_instructors_field)
-        print("\ninstructors_field: ")
-        print(instructors_field)
-        
-        print()
-
-        print("\ninstructors_avail_time: ")
-        print(instructors_avail_time)
-    
-
     return return_values
 
 def start():    
 
+    global all_info
+    global compiled_data
+    '''
+    clear()
+    print("Use User Data Collection, or Prewritten Data?")
+    print()
+    print("1: Manual Data Collection")
+    print("2: Prewritten")
 
-    compiled_data=convert()
-    #print(compiled_data)
+    user_input = input()
 
-    #               UNPACKS THE DATA RETURNED FROM convert()
+    if user_input == '1':
 
-    # Single list/tuple
-    levels = compiled_data[0]
-    #print(levels)
-
-    # Single list/tuple
-    sections = compiled_data[1]
-    #print(sections)
-
-    # single list/tuple
-    instructors_avail_time = compiled_data[2]
-    #print(instructors_avail_time)
-
-    # raw, dict, conv
-    parent_subjects = compiled_data[3]
-    #print(parent_subjects)
+        all_info = console_user_input_info()
     
-    # raw, dict, conv
-    parent_buildings = compiled_data[4]
-    #print(parent_buildings)
+    elif user_input == '2':
 
-    # raw, conv
-    parent_floors = compiled_data[5]
-    #print(parent_floors)
-
-    # raw, conv
-    parent_rooms = compiled_data[6]
-    #print(parent_rooms)
-
-    # raw, dict, conv
-    parent_instructors = compiled_data[7]
-    #print(parent_instructors)
-
-    # raw, dict, conv
-    parent_instructors_field = compiled_data[8]
-    #print(parent_instructors_field)
-
-    #  you should turn this into a function soon 
-
+        all_info = predetermined_info()
+    '''  
+    all_info = predetermined_info()
+    compiled_data = convert()
    
+    # Unpacks
+    levels = compiled_data[0]                       # Single list/tuple
+    sections = compiled_data[1]                     # Single list/tuple
+    instructors_avail_time = compiled_data[2]       # single list/tuple
+    parent_subjects = compiled_data[3]              # raw, dict, conv
+    parent_buildings = compiled_data[4]             # raw, dict, conv
+    parent_floors = compiled_data[5]                # raw, conv
+    parent_rooms = compiled_data[6]                 # raw, conv
+    parent_restricted_address = compiled_data[7]    # raw, dict, conv
+    parent_instructors_field = compiled_data[8]     # raw, dict, conv
 
-
-    # restricted area maker thing, format:  []   [ [[floor], [room], building 1], [[floor], [room], building 2]  ], [repeat]   ]
-    #                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    #                                             one schedule module (for lack of a better term) repeat 8 times
-
+    # restricted area maker thing, format
     restricted = []
     my_list = []
     i = [[],[]]
@@ -913,45 +991,185 @@ def start():
     for day in range(2):
 
         my_list = []
-
         restricted.append(my_list)
-
-        for restricted_list_num in range(6):      # appends the 8 lists correspondent to the 8 available schedules per day
+        for restricted_list_num in range(6):      # appends the 6 lists correspondent to the 6 available schedules per day
 
             my_list = []
             restricted[day].append(my_list)
-
             for floors in range(len(parent_floors[1])): # appends the frs block to each schedule block, x amounts of times (x = how many buildings there are)
 
                 i = [[],[]]
-                
                 restricted[day][restricted_list_num].append(i)       
-
                 y=-1
 
-        for restricted_list_num in range(6):    # goes 0 - 7
+        for restricted_list_num in range(6):    # goes 0 - 5
 
-            a = - 1
-            
+            a = - 1     
             for x in parent_floors[1]:
 
                 a = a + 1       #im not sure if theres a better way to get the current iteration, but this seems to work jsut fine
-
                 for y in x:
 
                     my_list = []
-
                     restricted[day][restricted_list_num][a][1].append(my_list)   #appends the number of rooms per floor in each building block
 
- 
+    chromosome, schedule_counter = constrained_randomizer(compiled_data, restricted)
 
-    constrained_randomizer(compiled_data, restricted)
+    output(compiled_data, chromosome, schedule_counter)
 
+def clear():
+    os.system('cls')
+
+def console_user_input_info():
+
+    clear()
+
+    while True:
+        try:
+            num_levels = int(input(f"Enter number of levels: "))
+            break
+        except ValueError:
+            clear()
+            print("Input must be an integer. Please try again.")
+            
+    levels = []
+    for x in range(num_levels):
+
+        clear()
+        level_name = input(f"Enter name of level {x+1}: ")
+        levels.append(level_name)
+            
+    subjects = []
+    section = []
+    for x in range(len(levels)):
+
+        while True:
+
+            try:
+              
+                num_sections_temp = int(input(f"Enter number of sections in {levels[x]}: "))
+                section.append(num_sections_temp)
+                break
+            except ValueError:
+                clear()
+                print("Input must be integer. Please try again.")
+
+        while True:
+            try:
+               
+                num_subjects_temp = int(input(f"Enter the number of subjects in {levels[x]}: "))
+                break
+
+            except ValueError:
+                clear()
+                print("input must be integer dumbass")
+
+        subject_names_temp2 = []
+        for y in range(num_subjects_temp):
+
+            clear()
+            subject_names_temp = input(f"Enter name of subject {y+1}: ")
+            subject_names_temp2.append(subject_names_temp)
+            
+        subjects.append(subject_names_temp2)
+
+    while True:
+        try:
+            num_buildings = int(input("Enter the number of buildings that will be used: "))
+            break
+        except ValueError:
+            clear()
+            print("input must be integer.")
+
+    restricted_address = []
+    buildings = []
+    floors = []
+    rooms = []
+    for x in range(num_buildings):
+
+        clear()
+        building_name = input(f"Enter name of building {x+1}: ")
+        buildings.append(building_name)
+
+        
+        while True:
+
+            try:
+                floor = int(input(f"Enter the number of floors the building, \"{buildings[x]}\", has: "))
+                floors.append(floor)
+                break
+                
+            except ValueError:
+                clear()
+                print("input invalid")
+
+        
+        while True:
+            try:
+
+                room = int(input(f"Enter the number of rooms each floor in \"{buildings[x]}\": "))
+                rooms.append(room)
+                break
+
+            except ValueError:
+                clear()
+                print("invalid input")
+
+        # Hashmap for ordinal suffixes
+        ordinal_suffixes = {0: "1st", 1: "2nd", 2: "3rd"}
+
+        for y in range(floor):
+            suffix = ordinal_suffixes.get(y, f"{y+1}th")  # Default to "th" if not in the hashmap
+            user_input = input(f"Are there any restricted rooms in \"{buildings[x]}\"'s {suffix} floor? (y/n): ")
+
+            if user_input == 'y':
+
+                while True:
+
+                    try:
+
+                        temp2 = []
+                        temp = input("Enter the room number. If there are multiple, separate them with commas")
+                        temp = temp.split(',')
+
+                        for i in temp:
+                            i = int(i)
+                            temp2.append(i)
+
+                        restricted_address.append([x,y,temp2])
+                        break
+
+                    except ValueError:
+                        clear()
+                        print("for the love of god, use INTEGERS")
+
+
+    manual_all_info = []
+    manual_all_info.append(levels)
+    manual_all_info.append(section)
+    manual_all_info.append(subjects)
+    manual_all_info.append(buildings)
+    manual_all_info.append(floors)
+    manual_all_info.append(rooms)
+    manual_all_info.append(restricted_address)
+    manual_all_info.append([])
+    manual_all_info.append([])
+                    
+    debug = False
+    if debug:
+        print(levels)
+        print(section)
+        print(subjects)
+        print()
+        print(buildings)
+        print(floors)
+        print(rooms)
+        print(restricted_address)
     
-    
+    return manual_all_info
+        
+
 
 start()
-
-    
 
     
