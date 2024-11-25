@@ -25,6 +25,50 @@ def predetermined_info():
                         "G12 STEAM",
                         "G11 ABM",
                         "G12 ABM",
+                        "G11 HUMMS",
+                        "G12 HUMMS",
+                        "test",
+                        "test 2",
+                        "test 3",
+                        "test 4",
+                        "test 5",
+                        "test 6",
+                        "G11 STEAM",
+                        "G12 STEAM",
+                        "G11 ABM",
+                        "G12 ABM",
+                        "G11 HUMMS",
+                        "G12 HUMMS",
+                        "test",
+                        "test 2",
+                        "test 3",
+                        "test 4",
+                        "test 5",
+                        "test 6",
+                        "G11 STEAM",
+                        "G12 STEAM",
+                        "G11 ABM",
+                        "G12 ABM",
+                        "G11 HUMMS",
+                        "G12 HUMMS",
+                        "test",
+                        "test 2",
+                        "test 3",
+                        "test 4",
+                        "test 5",
+                        "test 6",
+                        "G11 STEAM",
+                        "G12 STEAM",
+                        "G11 ABM",
+                        "G12 ABM",
+                        "G11 HUMMS",
+                        "G12 HUMMS",
+                        "test",
+                        "test 2",
+                        "test 3",
+                        "test 4",
+                        "test 5",
+                        "test 6"
                         
                   
                     )
@@ -37,6 +81,50 @@ def predetermined_info():
                         15,
                         15,
                         15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15,
+                        15
                         
                     
                     )
@@ -91,7 +179,503 @@ def predetermined_info():
                         "PE/CFFS A12"
                     ),
 
-     
+                    (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11",
+                        "Earth Science A11"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+                    
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Pre-calculus S11",
+                        "Statistics S11",
+                        "UCSP S11",
+                        "IPHP S11",
+                        "Earth Science S11",
+                        "Emptech S11",
+                        "Oral Com S11",
+                        "PE/CFFS S11"
+                    ),
+
+                    (
+                        "English S12",
+                        "Chemistry S12",
+                        "CPAR S12",
+                        "Filipino S12",
+                        "Biology S12",
+                        "InqVest S12",
+                        "Physics S12",
+                        "PEH/CFFS S12",
+                    ),
+
+                    (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11",
+                        "Earth Science A11"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11",
+                        "Earth Science A11"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+                    
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Pre-calculus S11",
+                        "Statistics S11",
+                        "UCSP S11",
+                        "IPHP S11",
+                        "Earth Science S11",
+                        "Emptech S11",
+                        "Oral Com S11",
+                        "PE/CFFS S11"
+                    ),
+
+                    (
+                        "English S12",
+                        "Chemistry S12",
+                        "CPAR S12",
+                        "Filipino S12",
+                        "Biology S12",
+                        "InqVest S12",
+                        "Physics S12",
+                        "PEH/CFFS S12",
+                    ),
+
+                    (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11",
+                        "Earth Science A11"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11",
+                        "Earth Science A11"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+                    
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Pre-calculus S11",
+                        "Statistics S11",
+                        "UCSP S11",
+                        "IPHP S11",
+                        "Earth Science S11",
+                        "Emptech S11",
+                        "Oral Com S11",
+                        "PE/CFFS S11"
+                    ),
+
+                    (
+                        "English S12",
+                        "Chemistry S12",
+                        "CPAR S12",
+                        "Filipino S12",
+                        "Biology S12",
+                        "InqVest S12",
+                        "Physics S12",
+                        "PEH/CFFS S12",
+                    ),
+
+                    (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11",
+                        "Earth Science A11"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "RWS A11",
+                        "Business Math A11",
+                        "Entrep A11",
+                        "UCSP A11",
+                        "Gen Math A11",
+                        "PE/CFFS A11",
+                        "CPAR A11",
+                        "Medil A11",
+                        "Org and Manage A11",
+                        "Earth Science A11"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+                    
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
+
+                    (
+                        "Personal Dev A12",
+                        "Applied Economics A12",
+                        "RDL A12",
+                        "Business Finance A12",
+                        "Pagbasa A12",
+                        "Profesional English A12",
+                        "FABM A12",
+                        "PE/CFFS A12"
+                    ),
 
                 )
     
@@ -100,7 +684,21 @@ def predetermined_info():
     buildings =     (
 
                         "SUHS",
-                        "Guy Hall"
+                        "Guy Hall",
+                        "test bldg1",
+                        "test bldg2",
+                        "SUHS",
+                        "Guy Hall",
+                        "test bldg1",
+                        "test bldg2",
+                        "SUHS",
+                        "Guy Hall",
+                        "test bldg1",
+                        "test bldg2",
+                        "SUHS",
+                        "Guy Hall",
+                        "test bldg1",
+                        "test bldg2"
                         
                          
 
@@ -110,6 +708,20 @@ def predetermined_info():
 
     floors =        (                  # COUNT FROM one)         
         
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
                         3,
                         3
                         
@@ -121,6 +733,20 @@ def predetermined_info():
     rooms =         (           #count from 1
         
                         12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
+                        12,
                         12
                         
         
@@ -129,11 +755,12 @@ def predetermined_info():
     all_info.append(rooms)
 
     #                   Make exceptions list for rooms that are not able to be used (ex. faculty rooms)
+    #                   FORMAT: (bldg_id, floor_num(start from 0), room_nums(start from 1))
 
     restricted_address =   (
 
-                        (0, 1, [1,2,3]),
-                        (1, 1, [6]),
+                        #(0, 1, [1,2,3]),
+                        #(1, 1, [6]),
 
                     )
     
@@ -259,17 +886,16 @@ def output(compiled_data, chromosome, schedule_counter):
                 schd = ii - 6
                 day = 1
 
-            temp_bld = parent_buildings[0][int(x[3][day][schd][:2])-1] + ' F' + str(x[3][day][schd][2:4]) + ' R' + str(x[3][day][schd][4:6])
+            if 'SIGMA!' == x[3][day][schd]:
+                temp_bld = "No Available Room Found"
+            else:
+                temp_bld = parent_buildings[0][int(x[3][day][schd][:2])-1] + ' F' + str(x[3][day][schd][2:4]) + ' R' + str(x[3][day][schd][4:6])
             
 
             decompiled_schedules[i].append(str(temp_sub) + '\n' + str(temp_bld))
-        pass
+    
 
-
-        
-           
     pass
-
     with open('schedule.csv', mode = 'w', newline='') as csvfile:
 
         fieldnames = [
@@ -440,10 +1066,7 @@ def constrained_randomizer(compiled_data, restricted):
             chromosome_temp.append(address_module)
 
             # probably a better way of doing this, but i dont know how!!!!!!!!!!!!!!!!!!!!!!!!
-            if error:
 
-                print("error_01")
-                exit()
 
             # appends the current chromosome to the chromosome list
             chromosome_temp=[]
@@ -461,6 +1084,7 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
     # these for loops represent the 2 days, and the 6 time slots per day
     for x in range(2):
         for y in range(6):
+            overwrite2 = False
 
             # checks if the value is in the ignore list, if it is, it will overwrite the value
             overwrite = False
@@ -479,10 +1103,11 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
                 in_list = chosen_building in restricted[x][y]
                 error_01 = error_01 + 1
 
-                if error_01 == 500000:
+                if error_01 == 1000:
 
-                    error = True
-                    return "000000", error
+                    overwrite2 = True
+                    chosen_building = 00
+                    in_list = False
                     
             in_list = True
             error_01 = 0
@@ -494,9 +1119,11 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
                 in_list = chosen_floor in restricted[x][y][chosen_building][0]
                 error_01 = error_01 + 1
 
-                if error_01 == 500000:
-                    error = True
-                    return "000000", error
+                if error_01 == 1000:
+
+                    overwrite2 = True
+                    chosen_floor = 00
+                    in_list = False
 
             in_list = True
             error_01 = 0
@@ -508,9 +1135,11 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
                 in_list = chosen_room in restricted[x][y][chosen_building][1][chosen_floor-1]
                 error_01 = error_01 + 1
 
-                if error_01 == 500000:
-                    error = True
-                    return "000000", error
+                if error_01 == 1000:
+
+                    overwrite2 = True
+                    chosen_room = 00
+                    in_list = False
 
             # inshallah you will get through debugging
             
@@ -538,7 +1167,10 @@ def buildings_floors_rooms(num_buildings,parent_floors,parent_rooms, restricted,
             if overwrite:
                 address_module_temp = "000000"
 
-            address_module.append(address_module_temp)
+            if not overwrite2:
+                address_module.append(address_module_temp)
+            else:
+                address_module.append("SIGMA!")
 
             error = False
             debug = False
