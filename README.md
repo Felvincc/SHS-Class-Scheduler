@@ -1,2 +1,3 @@
 Senior High School Timetable Scheduling Using Constrained Randomizer
-(Abandoned)
+(barely works and abandoned)
+
